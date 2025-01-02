@@ -1,0 +1,169 @@
+SF:/Users/dancox/Projects/libtwee/Twee/Passage.cs
+FN:9,System.String Twee.Passage::get_Name()
+FNDA:62,System.String Twee.Passage::get_Name()
+DA:10,62
+FN:10,System.Collections.Generic.List`1<System.String> Twee.Passage::get_Tags()
+FNDA:81,System.Collections.Generic.List`1<System.String> Twee.Passage::get_Tags()
+DA:11,81
+FN:11,System.Collections.Generic.Dictionary`2<System.String,System.Object> Twee.Passage::get_Metadata()
+FNDA:55,System.Collections.Generic.Dictionary`2<System.String,System.Object> Twee.Passage::get_Metadata()
+DA:12,55
+FN:12,System.String Twee.Passage::get_Text()
+FNDA:49,System.String Twee.Passage::get_Text()
+DA:13,49
+FN:35,System.Void Twee.Passage::AddTag(System.String)
+FNDA:19,System.Void Twee.Passage::AddTag(System.String)
+DA:36,19
+DA:37,19
+DA:38,19
+DA:39,19
+DA:40,19
+DA:41,19
+BRDA:37,18,0,19
+BRDA:37,18,1,19
+FN:43,System.Void Twee.Passage::RemoveTag(System.String)
+FNDA:1,System.Void Twee.Passage::RemoveTag(System.String)
+DA:44,1
+DA:45,1
+DA:46,1
+FN:48,System.Void Twee.Passage::AddMetadata(System.String,System.Object)
+FNDA:2,System.Void Twee.Passage::AddMetadata(System.String,System.Object)
+DA:49,2
+DA:50,2
+DA:51,2
+FN:53,System.Void Twee.Passage::RemoveMetadata(System.String)
+FNDA:1,System.Void Twee.Passage::RemoveMetadata(System.String)
+DA:54,1
+DA:55,1
+DA:56,1
+FN:58,System.Void Twee.Passage::SetMetadata(System.String,System.Object)
+FNDA:7,System.Void Twee.Passage::SetMetadata(System.String,System.Object)
+DA:59,7
+DA:60,7
+DA:61,7
+FN:63,System.Object Twee.Passage::GetMetadata(System.String)
+FNDA:1,System.Object Twee.Passage::GetMetadata(System.String)
+DA:64,1
+DA:65,1
+DA:66,1
+FN:68,System.Boolean Twee.Passage::HasMetadata(System.String)
+FNDA:1,System.Boolean Twee.Passage::HasMetadata(System.String)
+DA:69,1
+DA:70,1
+DA:71,1
+FN:73,System.Boolean Twee.Passage::HasTag(System.String)
+FNDA:1,System.Boolean Twee.Passage::HasTag(System.String)
+DA:74,1
+DA:75,1
+DA:76,1
+FN:77,System.Boolean Twee.Passage::HasTags(System.Collections.Generic.List`1<System.String>)
+FNDA:1,System.Boolean Twee.Passage::HasTags(System.Collections.Generic.List`1<System.String>)
+DA:78,1
+DA:79,3
+DA:80,1
+FN:84,System.String Twee.Passage::ToTwee()
+FNDA:4,System.String Twee.Passage::ToTwee()
+DA:85,4
+DA:87,5
+DA:88,1
+DA:92,3
+DA:95,4
+DA:96,1
+DA:97,1
+DA:100,4
+DA:102,1
+DA:104,1
+DA:105,1
+DA:108,3
+DA:111,3
+DA:112,3
+BRDA:87,14,0,1
+BRDA:87,14,1,3
+BRDA:95,61,0,1
+BRDA:95,61,1,3
+BRDA:100,114,0,1
+BRDA:100,114,1,3
+FN:116,System.String Twee.Passage::ToJson()
+FNDA:3,System.String Twee.Passage::ToJson()
+DA:117,3
+DA:119,4
+DA:120,1
+DA:124,2
+DA:125,2
+DA:126,2
+DA:127,2
+DA:128,2
+DA:131,2
+DA:134,2
+DA:137,2
+DA:140,2
+DA:141,2
+BRDA:119,14,0,1
+BRDA:119,14,1,2
+FN:145,System.String Twee.Passage::ToTwine2HTML(System.Int32)
+FNDA:4,System.String Twee.Passage::ToTwine2HTML(System.Int32)
+DA:146,4
+DA:148,5
+DA:149,1
+DA:153,3
+DA:156,3
+DA:159,4
+DA:161,1
+DA:162,1
+DA:165,3
+DA:167,0
+DA:168,0
+DA:171,3
+DA:174,3
+DA:175,3
+BRDA:148,14,0,1
+BRDA:148,14,1,3
+BRDA:159,163,0,1
+BRDA:159,163,1,3
+BRDA:165,248,0,0
+BRDA:165,248,1,3
+FN:184,System.String Twee.Passage::ToTwine1HTML()
+FNDA:2,System.String Twee.Passage::ToTwine1HTML()
+DA:185,2
+DA:187,2
+DA:188,0
+DA:192,2
+DA:195,2
+DA:198,2
+DA:201,3
+DA:203,1
+DA:204,2
+DA:206,1
+DA:207,1
+DA:210,2
+DA:213,2
+DA:214,2
+BRDA:187,14,0,0
+BRDA:187,14,1,2
+BRDA:201,115,0,1
+BRDA:201,115,1,1
+FN:18,System.Void Twee.Passage::.ctor()
+FNDA:23,System.Void Twee.Passage::.ctor()
+DA:19,23
+DA:20,23
+DA:21,23
+DA:22,23
+DA:23,23
+DA:24,23
+DA:25,23
+FN:26,System.Void Twee.Passage::.ctor(System.String,System.String)
+FNDA:1,System.Void Twee.Passage::.ctor(System.String,System.String)
+DA:27,1
+DA:28,1
+DA:29,1
+DA:30,1
+DA:31,1
+DA:32,1
+DA:33,1
+LF:103
+LH:100
+BRF:20
+BRH:18
+FNF:19
+FNH:19
+end_of_record

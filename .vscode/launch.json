@@ -1,0 +1,29 @@
+{
+  "configurations": [
+    {
+      "type": "coreclr",
+      "request": "launch",
+      "name": "Launch libtwee",
+      "program": "${workspaceFolder}/libtwee/bin/Debug/net9.0/libtwee.dll",
+      "preLaunchTask": "build"
+    },
+    {
+      "type": "coreclr",
+      "request": "launch",
+      "name": "Launch TestTwee",
+      "program": "${workspaceFolder}/TestTwee/bin/Debug/net9.0/TestTwee.dll",
+      "preLaunchTask": "build"
+    }
+  ],
+  "inputs": [
+    {
+      "type": "pickString",
+      "id": "projectToLaunch",
+      "description": "Select the project to launch",
+      "options": [
+        "libtwee",
+        "TestTwee"
+      ]
+    }
+  ]
+}
