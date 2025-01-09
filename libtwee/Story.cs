@@ -9,15 +9,17 @@ namespace libtwee
         public string Name { get; set; }
         public string IFID { get; set; }
         public string Start { get; set; }
-        public string Format { get; set; }
-        public string FormatVersion { get; set; }
-        public int Zoom { get; set; }
+        public string Format { get; set; } = string.Empty;
+        public string FormatVersion { get; set; } = string.Empty;
+        public float Zoom { get; set; }
         public List<Passage> Passages { get; }
-        public string Creator { get; set; }
-        public string CreatorVersion { get; set; }
-        public TagColors TagColors { get; set;}
+        public string Creator { get; set; } = string.Empty;
+        public string CreatorVersion { get; set; } = string.Empty;
+        public Dictionary<string, string> TagColors { get; set; }
         public int Count => Passages.Count;
         private readonly JsonSerializerOptions JSONSerializePrettyPrint = new() { WriteIndented = true };
+        public List<string> StoryStylesheets { get; set; }
+        public List<string> StoryScripts { get; set; }
 
         public Story()
         {
@@ -28,9 +30,11 @@ namespace libtwee
             Start = "";
             Format = "";
             FormatVersion = "";
-            Zoom = 1;
+            Zoom = 1.0f;
             Creator = "";
             CreatorVersion = "";
+            StoryStylesheets = [];
+            StoryScripts = [];
         }
 
         /**
@@ -54,40 +58,60 @@ namespace libtwee
             //  update the story's metadata based on specific keys.
             if (p.Name == "StoryData")
             {
-                // Does the StoryData contain 'ifid'?
-                if (p.Metadata.TryGetValue("ifid", out object? ifidValue))
-                {
-                    IFID = ifidValue?.ToString() ?? string.Empty;
+                // StoryData is assumed to contain JSON.
+                var metadata = new Dictionary<string, object>();
+
+                // Try to deserialize the JSON into a dictionary.
+                try {
+                    metadata = JsonSerializer.Deserialize<Dictionary<string, object>>(p.Text);
+                } catch (JsonException e) {
+                    Console.WriteLine($"Error: {e.Message}");
                 }
 
-                // Does the StoryData contain 'start'?
-                if (p.Metadata.TryGetValue("start", out object? startValue))
-                {
-                    Start = startValue?.ToString() ?? string.Empty;
-                }
+                if(metadata != null) {
+                    // Does the StoryData contain 'ifid'?
+                    if (metadata.TryGetValue("ifid", out object? ifidValue))
+                    {
+                        IFID = ifidValue?.ToString() ?? string.Empty;
+                    }
 
-                // Does the StoryData contain 'format'?
-                if (p.Metadata.TryGetValue("format", out object? formatValue))
-                {
-                    Format = formatValue?.ToString() ?? string.Empty;
-                }
+                    // Does the StoryData contain 'start'?
+                    if (metadata.TryGetValue("start", out object? startValue))
+                    {
+                        Start = startValue?.ToString() ?? string.Empty;
+                    }
 
-                // Does the StoryData contain 'format-version'?
-                if (p.Metadata.TryGetValue("format-version", out object? formatVersionValue))
-                {
-                    FormatVersion = formatVersionValue?.ToString() ?? string.Empty;
-                }
+                    // Does the StoryData contain 'format'?
+                    if (metadata.TryGetValue("format", out object? formatValue))
+                    {
+                        Format = formatValue?.ToString() ?? string.Empty;
+                    }
 
-                // Does the StoryData contain 'zoom'?
-                if (p.Metadata.TryGetValue("zoom", out object? zoomValue))
-                {
-                    Zoom = Convert.ToInt32(zoomValue);
-                }
+                    // Does the StoryData contain 'format-version'?
+                    if (metadata.TryGetValue("format-version", out object? formatVersionValue))
+                    {
+                        FormatVersion = formatVersionValue?.ToString() ?? string.Empty;
+                    }
 
-                // Does the StoryData contain 'tag-colors'?
-                if (p.Metadata.TryGetValue("tag-colors", out object? tagColorsValue))
-                {
-                    TagColors = (TagColors)tagColorsValue;
+                    // Does the StoryData contain 'zoom'?
+                    if (metadata.TryGetValue("zoom", out object? zoomValue) && zoomValue is JsonElement element && element.TryGetDouble(out double zoom))
+                    {
+                        // Convert the zoom value to a float.
+                        Zoom = (float) zoom;
+                    }
+
+                    // Does the StoryData contain 'tag-colors'?
+                    if (metadata.TryGetValue("tag-colors", out object? tagColorsValue))
+                    {
+                        // Convert the tag-colors value to a dictionary.
+                        var deserializedTagColors = JsonSerializer.Deserialize<Dictionary<string, string>>(tagColorsValue?.ToString() ?? string.Empty);
+
+                        // Check if the deserialized tag colors are not null.
+                        if (deserializedTagColors != null)
+                        {
+                            TagColors = deserializedTagColors;
+                        }
+                    }
                 }
 
                 return Passages.Count;
@@ -95,7 +119,7 @@ namespace libtwee
 
             // If the incoming passage is named 'StoryTitle',
             //  update the story's name based on the passage's text.
-            if(p.Name == "StoryTitle")
+            if (p.Name == "StoryTitle")
             {
                 Name = p.Text;
             }
@@ -137,7 +161,7 @@ namespace libtwee
         public List<Passage> GetPassagesByTag(string tag)
         {
             List<Passage> results = Passages.FindAll(
-                delegate(Passage p)
+                delegate (Passage p)
                 {
                     return p.Tags.Contains(tag);
                 }
@@ -149,15 +173,63 @@ namespace libtwee
         public Passage GetPassageByName(string name)
         {
             return Passages.Find(
-                delegate(Passage p)
+                delegate (Passage p)
                 {
                     return p.Name == name;
                 }
             )!;
         }
 
+        /**
+            {
+            "name": "Example",
+            "ifid": "D674C58C-DEFA-4F70-B7A2-27742230C0FC",
+            "format": "Snowman",
+            "format-version": "3.0.2",
+            "start": "My Starting Passage",
+            "tag-colors": {
+                "bar": "Green",
+                "foo": "red",
+                "qaz": "blue"
+            },
+            "zoom": 0.25,
+            "creator": "Twine",
+            "creator-version": "2.8",
+            "style": "",
+            "script": "",
+            "passages": [
+                {
+                    "name": "My Starting Passage",
+                    "tags": ["tag1", "tag2"],
+                    "metadata": {
+                        "position":"600,400",
+                        "size":"100,200"
+                    },
+                    "text": "Double-click this passage to edit it."
+                }
+            ]
+            }
+        */
+        // https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-jsonoutput-doc.md
         public string ToJson()
         {
+            string combinedStylesheets = string.Join("\n", StoryStylesheets);
+
+            // Find all passages with the tag 'stylesheet'.
+            List<Passage> stylesheets = GetPassagesByTag("stylesheet");
+
+            // Combine all the stylesheets into a single string.
+            combinedStylesheets += string.Join("\n", stylesheets);
+
+            // Combine all the scripts into a single string.
+            string combinedScripts = string.Join("\n", StoryScripts);
+
+            // Find all passages with the tag 'script'.
+            List<Passage> scripts = GetPassagesByTag("script");
+
+            // Combine all the scripts into a single string.
+            combinedScripts += string.Join("\n", scripts);
+
             // Create a dictionary to store the story data.
             Dictionary<string, object> data = new()
             {
@@ -166,20 +238,16 @@ namespace libtwee
                 { "start", Start },
                 { "format", Format },
                 { "format-version", FormatVersion },
-                { "zoom", Zoom },
                 { "creator", Creator },
                 { "creator-version", CreatorVersion },
+                { "zoom", Zoom },
                 { "tag-colors", TagColors },
-                { "passages", new List<string>() }
+                { "style", combinedStylesheets },
+                { "script", combinedScripts },
+                { "passages", Passages }
             };
 
-            // Add each passage to the story data.
-            foreach (Passage p in Passages)
-            {
-                ((List<string>)data["passages"]).Add(p.ToJson());
-            }
-
-            return JsonSerializer.Serialize(data);
+            return JsonSerializer.Serialize(data, JSONSerializePrettyPrint);
         }
 
         /**
@@ -238,9 +306,9 @@ namespace libtwee
              * zoom: (decimal) Optional. Maps to <tw-storydata zoom>.
              */
             Dictionary<string, object> data = [];
-            
+
             // Verify the IFID is in the proper format.
-            if(Babel.IsValidTwineIFID(IFID) == false)
+            if (Babel.IsValidTwineIFID(IFID) == false)
             {
                 // Generate a warning message.
                 Console.WriteLine("WARN: IFID is not in the proper format. Generating a new IFID.");
@@ -273,19 +341,11 @@ namespace libtwee
             // Does TagColors have a value?
             if (TagColors.Count > 0)
             {
-                var tagColorsString = TagColors.ToString();
-                if (!string.IsNullOrEmpty(tagColorsString))
-                {
-                    var tagColorsDict = tagColorsString != null ? JsonSerializer.Deserialize<Dictionary<string, string>>(tagColorsString) : [];
-                    if (tagColorsDict != null)
-                    {
-                        data.Add("tag-colors", tagColorsDict);
-                    }
-                }
+                data.Add("tag-colors", TagColors);
             }
 
             // Does Zoom have a value?
-            if (Zoom >= 1)
+            if (Zoom >= 1.0f)
             {
                 data.Add("zoom", Zoom);
             }
@@ -358,7 +418,7 @@ namespace libtwee
             //
             // Check if IFID is valid.
             // Verify the IFID is in the proper format.
-            if(Babel.IsValidTwineIFID(IFID) == false)
+            if (Babel.IsValidTwineIFID(IFID) == false)
             {
                 // Generate a warning message.
                 Console.WriteLine("WARN: IFID is not in the proper format. Generating a new IFID.");
@@ -431,8 +491,8 @@ namespace libtwee
             // zoom: (decimal) Optional. The zoom level of the story.
             // Maps to <tw-storydata zoom>.
 
-            // Check if Zoom has a value.
-            if (Zoom >= 1)
+            // Does Zoom have a value?
+            if (Zoom >= 1.0f)
             {
                 html += $" zoom=\"{Zoom}\"";
             }
@@ -458,11 +518,11 @@ namespace libtwee
             // Add the default attributes.
             html += " options hidden>\n";
 
-            // Add the tag-colors.
-            if (TagColors.Count > 0)
+            // Export the story's stylesheets.
+            // <style id="twine-user-stylesheet" type="text/twine-css">body {font-size: 1.5em;}</style>
+            foreach (string stylesheet in StoryStylesheets)
             {
-                // Add the tag-colors to the Twine 2 HTML string.
-                html += TagColors.ToTwine2HTML();
+                html += $"<style role=\"stylesheet\" id=\"twine-user-stylesheet\" type=\"text/twine-css\">{stylesheet}</style>\n";
             }
 
             // Look for all passages with the tag 'stylesheet'.
@@ -475,8 +535,15 @@ namespace libtwee
                 foreach (Passage p in stylesheets)
                 {
                     // Add the stylesheet to the Twine 2 HTML string.
-                    html += $"<style  role=\"stylesheet\" id=\"twine-user-stylesheet\" type=\"text/twine-css\">\n{p.Text}\n</style>\n";
+                    html += $"<style role=\"stylesheet\" id=\"twine-user-stylesheet\" type=\"text/twine-css\">{p.Text}</style>\n";
                 }
+            }
+
+            // Export the story's scripts.
+            // <script id="twine-user-script" type="text/twine-javascript">alert('Hello, world!');</script>
+            foreach (string script in StoryScripts)
+            {
+                html += $"<script role=\"script\" id=\"twine-user-script\" type=\"text/twine-javascript\">{script}</script>\n";
             }
 
             // Look for all passages with the tag 'script'.
@@ -489,7 +556,16 @@ namespace libtwee
                 foreach (Passage p in scripts)
                 {
                     // Add the script to the Twine 2 HTML string.
-                    html += $"<script role=\"script\" id=\"twine-user-script\" type=\"text/twine-javascript\">\n{p.Text}\n</script>\n";
+                    html += $"<script role=\"script\" id=\"twine-user-script\" type=\"text/twine-javascript\">{p.Text}</script>\n";
+                }
+            }
+
+            // Add the tag-colors.
+            if (TagColors.Count > 0)
+            {
+                foreach (KeyValuePair<string, string> tagColor in TagColors)
+                {
+                    html += $"<tw-tag name=\"{tagColor.Key}\" color=\"{tagColor.Value}\" />\n";
                 }
             }
 

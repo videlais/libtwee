@@ -169,14 +169,14 @@ namespace TestTwee
             passage.SetMetadata("author", "John Doe");
 
             string expectedJson = "{\"name\":\"TestPassage\",\"tags\":[\"tag1\",\"tag2\"],\"metadata\":{\"author\":\"John Doe\"},\"text\":\"This is a test passage.\"}";
-            
+
             Assert.That(passage.ToJson(), Is.EqualTo(expectedJson));
         }
 
         [Test]
         public void TestToJsonWithEmptyTagsAndMetadata()
         {
-            Passage passage = new Passage
+            Passage passage = new()
             {
                 Name = "TestPassage",
                 Text = "This is a test passage."
@@ -189,7 +189,7 @@ namespace TestTwee
         [Test]
         public void TestToJsonExceptionWithEmptyName()
         {
-            Passage passage = new Passage
+            Passage passage = new()
             {
                 Name = "",
                 Text = "This is a test passage."
@@ -216,7 +216,7 @@ namespace TestTwee
         [Test]
         public void TestToTwine2HTMLWithExplicitPID()
         {
-            Passage passage = new Passage
+            Passage passage = new()
             {
                 Name = "TestPassage",
                 Text = "This is a test passage."
@@ -231,7 +231,7 @@ namespace TestTwee
         [Test]
         public void TestToTwine2HTMLExceptionWithEmptyName()
         {
-            Passage passage = new Passage
+            Passage passage = new()
             {
                 Name = "",
                 Text = "This is a test passage."
@@ -243,7 +243,7 @@ namespace TestTwee
         [Test]
         public void TestToTwine2HTMLWithPosition()
         {
-            Passage passage = new Passage
+            Passage passage = new()
             {
                 Name = "TestPassage",
                 Text = "This is a test passage."
@@ -257,8 +257,24 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestToTwine1HTMLDefaultValues() {
-            Passage passage = new Passage
+        public void TestToTwine2HTMLWithSize() {
+            Passage passage = new()
+            {
+                Name = "TestPassage",
+                Text = "This is a test passage."
+            };
+            passage.AddTag("tag1");
+            passage.AddTag("tag2");
+            passage.SetMetadata("size", "20,20");
+
+            string expectedHTML = "<tw-passagedata pid=\"1\" name=\"TestPassage\" tags=\"tag1 tag2\" size=\"20,20\">This is a test passage.</tw-passagedata>";
+            Assert.That(passage.ToTwine2HTML(), Is.EqualTo(expectedHTML));
+        }
+
+        [Test]
+        public void TestToTwine1HTMLDefaultValues()
+        {
+            Passage passage = new()
             {
                 Name = "TestPassage",
                 Text = "This is a test passage."
@@ -271,8 +287,9 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestToTwine1HTMLWithPosition() {
-            Passage passage = new Passage
+        public void TestToTwine1HTMLWithPosition()
+        {
+            Passage passage = new()
             {
                 Name = "TestPassage",
                 Text = "This is a test passage."
@@ -285,5 +302,16 @@ namespace TestTwee
             Assert.That(passage.ToTwine1HTML(), Is.EqualTo(expectedHTML));
         }
 
+        [Test]
+        public void TestToTwine1HTML_ExceptionWithEmptyName()
+        {
+            Passage passage = new()
+            {
+                Name = "",
+                Text = "This is a test passage."
+            };
+
+            Assert.Throws<Exception>(() => passage.ToTwine1HTML());
+        }
     }
 }

@@ -2,14 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace libtwee
 {
     public class Passage
     {
+        [JsonPropertyName("name")]
         public string Name { get; set; }
+        [JsonPropertyName("tags")]
         public HashSet<string> Tags { get; set; }
+        [JsonPropertyName("metadata")]
         public Dictionary<string, object> Metadata { get; set; }
+        [JsonPropertyName("text")]
         public string Text { get; set; }
 
         /**
@@ -34,7 +39,7 @@ namespace libtwee
 
         public void AddTag(string tag)
         {
-            Tags.Add(tag);   
+            Tags.Add(tag);
         }
 
         public bool HasTag(string tag)
@@ -75,9 +80,11 @@ namespace libtwee
         /**
          * Returns a Twee representation of the passage.
          */
-        public string ToTwee() {
+        public string ToTwee()
+        {
             // If Name is empty, throw an exception.
-            if (string.IsNullOrEmpty(Name)) {
+            if (string.IsNullOrEmpty(Name))
+            {
                 throw new Exception("Passage name cannot be empty.");
             }
 
@@ -85,12 +92,14 @@ namespace libtwee
             string twee = $":: {Name}";
 
             // Add tags.
-            if (Tags.Count > 0) {
+            if (Tags.Count > 0)
+            {
                 twee += $" [{string.Join(" ", Tags)}]";
             }
 
             // Add metadata.
-            if (Metadata.Count > 0) {
+            if (Metadata.Count > 0)
+            {
                 // Add a space after the tags.
                 twee += " ";
                 // Convert Dictionary into JSON.
@@ -107,27 +116,26 @@ namespace libtwee
         /**
          * Returns a JSON representation of the passage.
          */
-        public string ToJson() {
+        public string ToJson()
+        {
             // If Name is empty, throw an exception.
-            if (string.IsNullOrEmpty(Name)) {
+            if (string.IsNullOrEmpty(Name))
+            {
                 throw new Exception("Passage name cannot be empty.");
             }
 
             // Create a dictionary to store the passage data.
-            Dictionary<string, object> data = new Dictionary<string, object>
+            Dictionary<string, object> data = new()
             {
                 // Add the passage name.
-                { "name", Name }
+                { "name", Name },
+                // Add the tags.
+                { "tags", Tags },
+                // Add the metadata.
+                { "metadata", Metadata },
+                // Add the passage text.
+                { "text", Text }
             };
-
-            // Add tags.
-            data.Add("tags", Tags);
-
-            // Add metadata.
-            data.Add("metadata", Metadata);
-
-            // Add the passage text.
-            data.Add("text", Text);
 
             // Convert the dictionary into JSON.
             return JsonSerializer.Serialize(data);
@@ -136,9 +144,11 @@ namespace libtwee
         /**
          * Returns a Twine 2 HTML representation of the passage.
          */
-        public string ToTwine2HTML(int pid = 1) {
+        public string ToTwine2HTML(int pid = 1)
+        {
             // If Name is empty, throw an exception.
-            if (string.IsNullOrEmpty(Name)) {
+            if (string.IsNullOrEmpty(Name))
+            {
                 throw new Exception("Passage name cannot be empty.");
             }
 
@@ -149,13 +159,15 @@ namespace libtwee
             html += $" tags=\"{string.Join(" ", Tags)}\"";
 
             // Does "position" exist within the metadata?
-            if (Metadata.TryGetValue("position", out object? pValue)) {
+            if (Metadata.TryGetValue("position", out object? pValue))
+            {
                 // Add the position attribute.
                 html += $" position=\"{pValue}\"";
             }
 
             // Does "size" exist within the metadata?
-            if (Metadata.TryGetValue("size", out object? sValue)) {
+            if (Metadata.TryGetValue("size", out object? sValue))
+            {
                 // Add the size attribute.
                 html += $" size=\"{sValue}\"";
             }
@@ -165,7 +177,7 @@ namespace libtwee
 
             // Return the HTML representation.
             return html;
-         }
+        }
 
         /**
         * Returns Twine 1 HTML representation of the passage.
@@ -175,10 +187,12 @@ namespace libtwee
         *  modifier="extwee"
         *  twine-position="10,10">[[One passage]]</div>
         */
-        public string ToTwine1HTML() {
+        public string ToTwine1HTML()
+        {
             // If Name is empty, throw an exception.
-            if (string.IsNullOrEmpty(Name)) {
-                throw new Exception("Passage name cannot be empty.");
+            if (string.IsNullOrEmpty(Name))
+            {
+                throw new Exception("Error: Passage name cannot be empty.");
             }
 
             // Add the passage name.
@@ -191,10 +205,13 @@ namespace libtwee
             html += " modifier=\"extwee\"";
 
             // Does "position" exist within the metadata?
-            if (Metadata.TryGetValue("position", out object? pValue)) {
+            if (Metadata.TryGetValue("position", out object? pValue))
+            {
                 // Add the position attribute.
                 html += $" twine-position=\"{pValue}\"";
-            } else {
+            }
+            else
+            {
                 // Add a default position.
                 html += " twine-position=\"10,10\"";
             }
