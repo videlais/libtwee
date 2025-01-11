@@ -257,7 +257,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestToTwine2HTMLWithSize() {
+        public void TestToTwine2HTMLWithSize()
+        {
             Passage passage = new()
             {
                 Name = "TestPassage",

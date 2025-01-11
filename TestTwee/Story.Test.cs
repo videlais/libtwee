@@ -648,7 +648,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestToTwine2HTML_VerifyIFIDWasGenerated() {
+        public void TestToTwine2HTML_VerifyIFIDWasGenerated()
+        {
             // Set testing values for the story.
             if (_story != null)
             {
@@ -724,7 +725,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestToTwine2HTML_WithStoryStylesheetAndStylesheetTag() {
+        public void TestToTwine2HTML_WithStoryStylesheetAndStylesheetTag()
+        {
             // Set IFID to a default value for testing.
             if (_story != null)
             {
@@ -733,7 +735,7 @@ namespace TestTwee
 
             // Set the story stylesheet.
             _story?.StoryStylesheets.Add("body { background-color: #000000; }");
-            
+
             // Create a passage to add to the story.
             Passage passage = new("TestPassage", "p { background-color: #FFFFFF; }");
             passage.AddTag("stylesheet");
@@ -745,7 +747,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestToTwine2HTML_WithStoryScriptAndScriptTag() {
+        public void TestToTwine2HTML_WithStoryScriptAndScriptTag()
+        {
             // Set IFID to a default value for testing.
             if (_story != null)
             {
@@ -754,7 +757,7 @@ namespace TestTwee
 
             // Set the story script.
             _story?.StoryScripts.Add("alert('Hello, world!')");
-            
+
             // Create a passage to add to the story.
             Passage passage = new("TestPassage", "alert('Hello, world!')");
             passage.AddTag("script");
@@ -764,10 +767,12 @@ namespace TestTwee
             string html = _story != null ? _story.ToTwine2HTML() : string.Empty;
             Assert.That(html, Is.EqualTo("<tw-storydata name=\"Untitled\" ifid=\"A77C26C0-C331-11EF-A8FA-0800200C9A66\" startnode=\"1\" zoom=\"1\" options hidden>\n<script role=\"script\" id=\"twine-user-script\" type=\"text/twine-javascript\">alert('Hello, world!')</script>\n<script role=\"script\" id=\"twine-user-script\" type=\"text/twine-javascript\">alert('Hello, world!')</script>\n<tw-passagedata pid=\"1\" name=\"TestPassage\" tags=\"script\">alert('Hello, world!')</tw-passagedata></tw-storydata>"));
         }
-    
+
         [Test]
-        public void TestToJson() {
-            if(_story != null) {
+        public void TestToJson()
+        {
+            if (_story != null)
+            {
                 _story.IFID = "A77C26C0-C331-11EF-A8FA-0800200C9A66";
                 _story.Start = "TestPassage";
                 _story.Name = "TestStory";
@@ -810,36 +815,42 @@ namespace TestTwee
                                   "}";
             Assert.That(json, Is.EqualTo(expectedJson));
         }
-    
+
         [Test]
-        public void TestAddPassage_StoryTitle() {
+        public void TestAddPassage_StoryTitle()
+        {
             Passage passage = new("StoryTitle", "This is a test passage.");
             _story?.AddPassage(passage);
-            Assert.Multiple(() => {
+            Assert.Multiple(() =>
+            {
                 Assert.That(_story?.Passages.Count, Is.EqualTo(1));
                 Assert.That(_story?.Name, Is.EqualTo("This is a test passage."));
             });
         }
 
         [Test]
-        public void TestAddPassage_Start() {
+        public void TestAddPassage_Start()
+        {
             Passage passage = new("Start", "This is a test passage.");
             _story?.AddPassage(passage);
-            Assert.Multiple(() => {
+            Assert.Multiple(() =>
+            {
                 Assert.That(_story?.Passages.Count, Is.EqualTo(1));
                 Assert.That(_story?.Start, Is.EqualTo("Start"));
             });
         }
 
         [Test]
-        public void TestAddPassage_StoryData_IFID() {
+        public void TestAddPassage_StoryData_IFID()
+        {
             Passage passage = new("StoryData", @"{
                 ""ifid"": ""A77C26C0-C331-11EF-A8FA-0800200C9A66"",
                 ""start"": ""TestPassage"",
                 ""zoom"": 1.0
             }");
             _story?.AddPassage(passage);
-            Assert.Multiple(() => {
+            Assert.Multiple(() =>
+            {
                 Assert.That(_story?.Passages.Count, Is.EqualTo(0));
                 Assert.That(_story?.IFID, Is.EqualTo("A77C26C0-C331-11EF-A8FA-0800200C9A66"));
                 Assert.That(_story?.Zoom, Is.EqualTo(1.0));
@@ -847,13 +858,15 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestAddPassage_StoryData_FormatAndFormatversion() {
+        public void TestAddPassage_StoryData_FormatAndFormatversion()
+        {
             Passage passage = new("StoryData", @"{
                 ""format"": ""Twine"",
                 ""format-version"": ""2.0""
             }");
             _story?.AddPassage(passage);
-            Assert.Multiple(() => {
+            Assert.Multiple(() =>
+            {
                 Assert.That(_story?.Passages.Count, Is.EqualTo(0));
                 Assert.That(_story?.Format, Is.EqualTo("Twine"));
                 Assert.That(_story?.FormatVersion, Is.EqualTo("2.0"));
@@ -861,7 +874,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestAddPassage_StoryData_TagColors() {
+        public void TestAddPassage_StoryData_TagColors()
+        {
             Passage passage = new("StoryData", @"{
                 ""tag-colors"": {
                     ""tag1"": ""#FFFFFF"",
@@ -869,7 +883,8 @@ namespace TestTwee
                 }
             }");
             _story?.AddPassage(passage);
-            Assert.Multiple(() => {
+            Assert.Multiple(() =>
+            {
                 Assert.That(_story?.Passages.Count, Is.EqualTo(0));
                 Assert.That(_story?.TagColors.Count, Is.EqualTo(2));
                 Assert.That(_story?.TagColors["tag1"], Is.EqualTo("#FFFFFF"));
@@ -878,10 +893,12 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestAddPassage_StoryData_InvalidJSON() {
+        public void TestAddPassage_StoryData_InvalidJSON()
+        {
             Passage passage = new("StoryData", @"{");
             _story?.AddPassage(passage);
-            Assert.Multiple(() => {
+            Assert.Multiple(() =>
+            {
                 Assert.That(_story?.Passages.Count, Is.EqualTo(0));
                 Assert.That(_story?.IFID, Is.EqualTo(""));
                 Assert.That(_story?.Start, Is.EqualTo(""));

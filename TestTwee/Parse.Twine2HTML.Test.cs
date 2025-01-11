@@ -228,7 +228,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2HTML_ParsePassageData_Tags() {
+        public void TestParseTwine2HTML_ParsePassageData_Tags()
+        {
             string html = @"<tw-storydata
                     name='DocumentationExample'
                     startnode='1'
@@ -249,7 +250,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2HTML_ParsePassageData_TagsEmpty() {
+        public void TestParseTwine2HTML_ParsePassageData_TagsEmpty()
+        {
             string html = @"<tw-storydata
                     name='DocumentationExample'
                     startnode='1'
@@ -270,7 +272,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2HTML_ParsePassageData_TagsMissing() {
+        public void TestParseTwine2HTML_ParsePassageData_TagsMissing()
+        {
             string html = @"<tw-storydata
                     name='DocumentationExample'
                     startnode='1'
@@ -290,7 +293,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2HTML_ParsePassageData_Text() {
+        public void TestParseTwine2HTML_ParsePassageData_Text()
+        {
             string html = @"<tw-storydata
                     name='DocumentationExample'
                     startnode='1'
@@ -309,7 +313,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2HTML_ParsePassageData_TextEmpty() {
+        public void TestParseTwine2HTML_ParsePassageData_TextEmpty()
+        {
             string html = @"<tw-storydata
                     name='DocumentationExample'
                     startnode='1'
@@ -328,7 +333,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2HTML_ParsePassageData_TextMissing() {
+        public void TestParseTwine2HTML_ParsePassageData_TextMissing()
+        {
             string html = @"<tw-storydata
                     name='DocumentationExample'
                     startnode='1'
@@ -347,7 +353,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2HTML_ParsePassageData_Size() {
+        public void TestParseTwine2HTML_ParsePassageData_Size()
+        {
             string html = @"<tw-storydata
                     name='DocumentationExample'
                     startnode='1'
@@ -368,7 +375,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2HTML_ParsePassageData_SizeEmpty() {
+        public void TestParseTwine2HTML_ParsePassageData_SizeEmpty()
+        {
             string html = @"<tw-storydata
                     name='DocumentationExample'
                     startnode='1'
@@ -389,7 +397,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2HTML_ParsePassageData_SizeMissing() {
+        public void TestParseTwine2HTML_ParsePassageData_SizeMissing()
+        {
             string html = @"<tw-storydata
                     name='DocumentationExample'
                     startnode='1'
@@ -410,7 +419,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2HTML_ParsePassageData_Position() {
+        public void TestParseTwine2HTML_ParsePassageData_Position()
+        {
             string html = @"<tw-storydata
                     name='DocumentationExample'
                     startnode='1'
@@ -431,7 +441,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2HTML_ParsePassageData_PositionEmpty() {
+        public void TestParseTwine2HTML_ParsePassageData_PositionEmpty()
+        {
             string html = @"<tw-storydata
                     name='DocumentationExample'
                     startnode='1'
@@ -452,7 +463,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2HTML_ParsePassageData_PositionMissing() {
+        public void TestParseTwine2HTML_ParsePassageData_PositionMissing()
+        {
             string html = @"<tw-storydata
                     name='DocumentationExample'
                     startnode='1'
