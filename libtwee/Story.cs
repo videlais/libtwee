@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace libtwee
 {
-    public partial class Story
+    public class Story
     {
         public string Name { get; set; }
         public string IFID { get; set; }
