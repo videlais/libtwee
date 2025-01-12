@@ -62,8 +62,8 @@ namespace libtwee
                     //
                     // Escaped characters are supported, so we need to check for them.
                     while (position < bytes.Length &&
-                           bytes[position] != (byte)'[' && bytes[position]-1 != (byte)'\\' &&
-                           bytes[position] != (byte)'{' && bytes[position]-1 != (byte)'\\' &&
+                           bytes[position] != (byte)'[' &&
+                           bytes[position] != (byte)'{' &&
                            bytes[position] != (byte)'\n'
                            ) {
                         // Append the current character to the tempName variable.
@@ -82,16 +82,15 @@ namespace libtwee
                     // (4) We have read to a '[' and have a passage name, tags, and metadata.
 
                     // Check if the current position is '['.
-                    // Ignore escaped characters.
                     if (position < bytes.Length && 
-                        bytes[position] == (byte)'[' && bytes[position]-1 != (byte)'\\') {
+                        bytes[position] == (byte)'[') {
                         // Move the position to the character after the '['.
                         position++;
                         
                         // Continue to append characters to the tempTags variable until a ']' is found.
                         // Ignore escaped characters.
                         while (position < bytes.Length && 
-                               bytes[position] != (byte)']' && bytes[position]-1 != (byte)'\\') {
+                               bytes[position] != (byte)']') {
                             tempTags += (char)bytes[position];
                             position++;
                         }
