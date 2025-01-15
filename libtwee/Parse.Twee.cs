@@ -184,7 +184,13 @@ namespace libtwee
                     try {
                         if (!string.IsNullOrEmpty(tempMetadata))
                         {
-                            passage.Metadata = JsonSerializer.Deserialize<Dictionary<string, object>>(tempMetadata);
+                            var metadata = JsonSerializer.Deserialize<Dictionary<string, object>>(tempMetadata);
+
+                            // Check if the metadata is not null.
+                            if (metadata != null)
+                            {
+                                passage.Metadata = metadata;
+                            }
                         }
                     } catch (Exception e) {
                         Console.WriteLine($"WARN: Unable to parse passage metadata. {e.Message}");
