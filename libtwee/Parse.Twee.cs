@@ -125,9 +125,6 @@ namespace libtwee
                         }
                     }
 
-                    // Debug print the tempMetadata variable.
-                    Console.WriteLine($"DEBUG: Metadata {tempMetadata}");
-
                     // After metadata, we might have spaces or newline.
                     // Keep reading until we find the newline.
                     while (position < bytes.Length && bytes[position] != (byte)'\n') {
@@ -168,9 +165,6 @@ namespace libtwee
 
                     // Remove one or more newline characters from the end of the passage content.
                     tempContent = tempContent.TrimEnd('\n');
-
-                    // Debug print the tempContent variable.
-                    Console.WriteLine($"DEBUG: Content {tempContent}");
 
                     // Create a new passage object.
                     Passage passage = new()
