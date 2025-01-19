@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace libtwee 
 {
-    public class StoryFormat 
+    public partial class StoryFormat 
     {
         // name: (string) Optional. The name of the story format. (Omitting the name will lead to an Untitled Story Format.)
         [JsonPropertyName("name")]
@@ -58,6 +58,20 @@ namespace libtwee
         public static StoryFormat FromJson(string json)
         {
             var result = JsonSerializer.Deserialize<StoryFormat>(json) ?? throw new InvalidOperationException("Deserialization resulted in a null StoryFormat object.");
+            return result;
+        }
+
+        public string ToJson()
+        {
+            return JsonSerializer.Serialize(this);
+        }
+
+        public string Write() 
+        {
+            // Wrap the JSON in a function.
+            string result = $"window.storyFormat({this.ToJson()});";
+
+            // Return the result
             return result;
         }
     }

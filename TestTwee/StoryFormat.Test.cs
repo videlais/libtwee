@@ -119,5 +119,39 @@ namespace TestTwee
             });
         }
 
+        [Test]
+        public void TestToJson()
+        {
+            _storyFormat.Name = "NewName";
+            _storyFormat.Version = "2.0";
+            _storyFormat.Author = "NewAuthor";
+            _storyFormat.Description = "NewDescription";
+            _storyFormat.Image = "NewImage";
+            _storyFormat.Url = "NewUrl";
+            _storyFormat.License = "NewLicense";
+            _storyFormat.Proofing = true;
+            _storyFormat.Source = "NewSource";
+
+            var json = _storyFormat.ToJson();
+            Assert.That(json, Is.EqualTo("{\"name\":\"NewName\",\"version\":\"2.0\",\"author\":\"NewAuthor\",\"description\":\"NewDescription\",\"image\":\"NewImage\",\"url\":\"NewUrl\",\"license\":\"NewLicense\",\"proofing\":true,\"source\":\"NewSource\"}"));
+        }
+
+        [Test]
+        public void TestWrite()
+        {
+            _storyFormat.Name = "NewName";
+            _storyFormat.Version = "2.0";
+            _storyFormat.Author = "NewAuthor";
+            _storyFormat.Description = "NewDescription";
+            _storyFormat.Image = "NewImage";
+            _storyFormat.Url = "NewUrl";
+            _storyFormat.License = "NewLicense";
+            _storyFormat.Proofing = true;
+            _storyFormat.Source = "NewSource";
+
+            var result = _storyFormat.Write();
+            Assert.That(result, Is.EqualTo("window.storyFormat({\"name\":\"NewName\",\"version\":\"2.0\",\"author\":\"NewAuthor\",\"description\":\"NewDescription\",\"image\":\"NewImage\",\"url\":\"NewUrl\",\"license\":\"NewLicense\",\"proofing\":true,\"source\":\"NewSource\"});"));
+        }
+
     }
 }
