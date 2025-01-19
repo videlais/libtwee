@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Text.RegularExpressions;
 
 namespace libtwee
 {
@@ -29,7 +28,7 @@ namespace libtwee
             }
 
             // Verify the story contains an IFID in UUIDv4 format using uppercase letters.
-            if (!IFIDRegex().IsMatch(story.IFID))
+            if (!Babel.IsValidTwineIFID(story.IFID))
             {
                 throw new Exception("ERROR: The story IFID is not a valid.");
             }
@@ -46,8 +45,5 @@ namespace libtwee
             // Return the new copy with the story name and story data replaced.
             return storyFormatSource;
         }
-
-        [GeneratedRegex(@"^[A-F0-9]{8}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{4}-[A-F0-9]{12}$")]
-        private static partial Regex IFIDRegex();
     }
 }
