@@ -33,11 +33,11 @@ From 2009 to 2015, Twine 1 supported a now [historical format named TWS](https:/
 
 Twine 2 supports exporting a collection of stories (known as a *library*) in the [Twine 2 Archive HTML format](https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-archive-spec.md).
 
-[^1]: Extwee does not include or publish story formats. These can be found in the [Story Format Archive (SFA)](https://github.com/videlais/story-formats-archive).
+[^1]: Story formats can be found in the [Story Format Archive (SFA)](https://github.com/videlais/story-formats-archive).
 
 [^2]: Twee exists in three versions. The first existed between 2006 to 2009 and was part of Twine 1. The move to Twine 2 in 2009 dropped support and the story compilation tools [Twee2](https://dan-q.github.io/twee2/) and [Tweego](https://www.motoslave.net/tweego/) adopted their own extensions and modifications. Beginning in 2017, work was done to unite the different projects. This resulted in [Twee 3](https://github.com/iftechfoundation/twine-specs/blob/master/twee-3-specification.md) in March 2021.
 
-[^3]: In October 2023, JavaScript Object Notation (JSON) was added as a supported community format for story compilation tools. Extwee is the first tool to support this format.
+[^3]: In October 2023, JavaScript Object Notation (JSON) was added as a supported community format for story compilation tools.
 
 ## Format Support
 
@@ -64,6 +64,6 @@ The Babel class contains methods for verifying and generating a Twine-compatible
 
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See `LICENSE` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
