@@ -6,6 +6,28 @@ using System.Text.Json.Serialization;
 
 namespace libtwee
 {
+    /// <summary>
+    /// Class <c>Passage</c> represents a passage in a Twine story.
+    /// <list type="bullet">
+    ///     <item>
+    ///         <term>Name</term>
+    ///         <description>The name of every passage in a story should be unique.</description>
+    ///     </item>
+    ///     <item>
+    ///         <term>Tags</term>
+    ///         <description>Every passage can contain none, one, or many tags. Tags should be unique per passage.</description>
+    ///     </item>
+    ///     <item>
+    ///         <term>Metadata</term>
+    ///         <description>Passage can contain extra metadata. (Currently, only Twee format expresses metadata.)</description>
+    ///     </item>
+    ///     <item>
+    ///         <term>Text</term>
+    ///         <description>The text of a passage.</description>
+    ///     </item>
+    /// </list>
+    /// Passages can be converted to Twee, JSON, and HTML formats. However, not every format supports all data.
+    /// </summary>
     public class Passage
     {
         [JsonPropertyName("name")]
@@ -17,10 +39,9 @@ namespace libtwee
         [JsonPropertyName("text")]
         public string Text { get; set; }
 
-        /**
-         * Default constructor.
-         * Initializes the passage with empty values.
-         */
+        /// <summary>
+        /// Constructor for the <c>Passage</c> class.
+        /// </summary>
         public Passage()
         {
             Tags = [];
@@ -29,6 +50,9 @@ namespace libtwee
             Text = "";
         }
 
+        /// <summary>
+        /// Constructor for the <c>Passage</c> class.
+        /// </summary>
         public Passage(string name, string text)
         {
             Tags = [];
@@ -37,55 +61,98 @@ namespace libtwee
             Text = text;
         }
 
-        public void AddTag(string tag)
+        /// <summary>
+        /// Adds a tag to the passage.
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns><c>true</c> if the tag was added, <c>false</c> if the tag already exists.</returns>
+        public bool AddTag(string tag)
         {
-            Tags.Add(tag);
+            return Tags.Add(tag);
         }
 
+        /// <summary>
+        /// Checks if the passage has a tag.
+        /// </summary>
+        /// <param name="tag">Tag to check for.</param>
+        /// <returns><c>true</c> if the passage contains the tag; <c>false</c> otherwise.</returns>
         public bool HasTag(string tag)
         {
             return Tags.Contains(tag);
         }
 
-        public void RemoveTag(string tag)
+        /// <summary>
+        /// Removes a tag from the passage.
+        /// </summary>
+        /// <param name="tag"></param>
+        /// <returns><c>true</c> if the tag was removed, <c>false</c> if the tag does not exist.</returns>
+        public bool RemoveTag(string tag)
         {
-            Tags.Remove(tag);
+            return Tags.Remove(tag);
         }
 
-        public void AddMetadata(string key, object value)
+        /// <summary>
+        /// Adds metadata to the passage.
+        /// </summary>
+        /// <param name="key">The key to add.</param>
+        /// <param name="value">Value to add based on key.</param>
+        /// <returns><c>true</c> if the metadata was added, <c>false</c> if the key could not be added.</returns>
+        public bool AddMetadata(string key, object value)
         {
-            Metadata.TryAdd(key, value);
+            return Metadata.TryAdd(key, value);
         }
 
-        public void RemoveMetadata(string key)
+        /// <summary>
+        /// Checks if the passage has metadata.
+        /// </summary>
+        /// <param name="key">Key to check for.</param>
+        /// <returns><c>true</c> if the passage contains the key; <c>false</c> otherwise.</returns>
+        public bool RemoveMetadata(string key)
         {
-            Metadata.Remove(key);
+            return Metadata.Remove(key);
         }
 
+        /// <summary>
+        /// Sets metadata for the passage.
+        /// </summary>
+        /// <param name="key">Key to reference.</param>
+        /// <param name="value">New value to update.</param>
         public void SetMetadata(string key, object value)
         {
             Metadata[key] = value;
         }
 
+        /// <summary>
+        /// Gets metadata for the passage.
+        /// </summary>
+        /// <param name="key">Key to reference.</param>
+        /// <returns>Value of the key.</returns>
         public object GetMetadata(string key)
         {
             return Metadata[key];
         }
 
+        /// <summary>
+        /// Checks if the passage has metadata.
+        /// </summary>
+        /// <param name="key">Key to check for.</param>
+        /// <returns><c>true</c> if the passage contains the key; <c>false</c> otherwise.</returns>
         public bool HasMetadata(string key)
         {
             return Metadata.ContainsKey(key);
         }
 
-        /**
-         * Returns a Twee representation of the passage.
-         */
+        /// <summary>
+        /// Returns a Twee representation of the passage following the <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twee-3-specification.md">Twee 3 Specification</see>.
+        /// </summary>
+        /// <returns>String containing Twee representation of passage.</returns>
+        /// <exception cref="EmptyPassageNameException">Throws error if passage name is empty or null</exception>
         public string ToTwee()
         {
             // If Name is empty, throw an exception.
             if (string.IsNullOrEmpty(Name))
             {
-                throw new Exception("Passage name cannot be empty.");
+                throw new EmptyPassageNameException();
             }
 
             // Add the passage name.
@@ -113,15 +180,17 @@ namespace libtwee
             return twee;
         }
 
-        /**
-         * Returns a JSON representation of the passage.
-         */
+        /// <summary>
+        /// Returns a JSON representation of the passage following the <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-jsonoutput-doc.md">Twine 2 JSON Output Specification</see>.
+        /// </summary>
+        /// <returns>String containing JSON representation of passage</returns>
+        /// <exception cref="EmptyPassageNameException">Throws exception if passage name is empty</exception>
         public string ToJson()
         {
             // If Name is empty, throw an exception.
             if (string.IsNullOrEmpty(Name))
             {
-                throw new Exception("Passage name cannot be empty.");
+                throw new EmptyPassageNameException();
             }
 
             // Create a dictionary to store the passage data.
@@ -141,9 +210,11 @@ namespace libtwee
             return JsonSerializer.Serialize(data);
         }
 
-        /**
-         * Returns a Twine 2 HTML representation of the passage.
-         */
+        /// <summary>
+        /// Returns Twine 2 HTML representation of the passage following the <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-htmloutput-spec.md">Twine 2 HTML Output Specification</see>.
+        /// </summary>
+        /// <param name="pid">Passage ID</param>
+        /// <returns>String containing HTML representation of passage</returns>
         public string ToTwine2HTML(int pid = 1)
         {
             // If Name is empty, throw an exception.
@@ -179,20 +250,17 @@ namespace libtwee
             return html;
         }
 
-        /**
-        * Returns Twine 1 HTML representation of the passage.
-        * Example:
-        * <div
-        *  created="2023 06 02 012 1"
-        *  modifier="extwee"
-        *  twine-position="10,10">[[One passage]]</div>
-        */
+        /// <summary>
+        /// Returns Twine 1 HTML representation of the passage following the <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twine-1-htmloutput-doc.md">Twine 1 HTML Output Specification</see>.
+        /// </summary>
+        /// <returns>String containing HTML representation of passage</returns>
+        /// <exception cref="EmptyPassageNameException">Throws exception if passage name is empty</exception>
         public string ToTwine1HTML()
         {
             // If Name is empty, throw an exception.
             if (string.IsNullOrEmpty(Name))
             {
-                throw new Exception("Error: Passage name cannot be empty.");
+                throw new EmptyPassageNameException();
             }
 
             // Add the passage name.
