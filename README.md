@@ -9,9 +9,9 @@
   <li><a href="#license">License</a></li>
 </ol>
 
-
 # libtwee
-libtwee is a C# library for creating and parsing current and historic Twine file formats
+
+libtwee is a C# library for creating and parsing current and historic Twine file formats.
 
 ## Story Compilation
 
@@ -43,12 +43,12 @@ Twine 2 supports exporting a collection of stories (known as a *library*) in the
 
 | Format                                                                                                                           | Input           | Output           |
 |----------------------------------------------------------------------------------------------------------------------------------|-----------------|------------------|
-| [ Twine 1 HTML (2006 - 2015) ]( https://github.com/iftechfoundation/twine-specs/blob/master/twine-1-htmloutput-doc.md )          | Yes             | Partial support. |
-| [ Twine 1 TWS (2009 - 2015) ]( https://github.com/iftechfoundation/twine-specs/blob/master/twine-1-twsoutput.md )                | Not supported   | Not supported.   |
-| [ Twine 2 HTML (2015 - Present) ]( https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-htmloutput-spec.md )      | Yes             | Yes              |
-| [ Twine 2 Archive HTML (2015 - Present) ]( https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-archive-spec.md ) | Yes             | Yes              |
-| [ Twee 3 (2021 - Present) ]( https://github.com/iftechfoundation/twine-specs/blob/master/twee-3-specification.md )               | Yes             | Yes              |
-| [ Twine 2 JSON (2023 - Present) ]( https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-jsonoutput-doc.md )       | Yes             | Yes              |
+| [Twine 1 HTML (2006 - 2015)]( https://github.com/iftechfoundation/twine-specs/blob/master/twine-1-htmloutput-doc.md )          | Yes             | Partial support. |
+| [Twine 1 TWS (2009 - 2015)]( https://github.com/iftechfoundation/twine-specs/blob/master/twine-1-twsoutput.md )                | Not supported   | Not supported.   |
+| [Twine 2 HTML (2015 - Present)]( https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-htmloutput-spec.md )      | Yes             | Yes              |
+| [Twine 2 Archive HTML (2015 - Present)]( https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-archive-spec.md ) | Yes             | Yes              |
+| [Twee 3 (2021 - Present)]( https://github.com/iftechfoundation/twine-specs/blob/master/twee-3-specification.md )               | Yes             | Yes              |
+| [Twine 2 JSON (2023 - Present)]( https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-jsonoutput-doc.md )       | Yes             | Yes              |
 
 **Note:** Round-trip translations can present problems because of required fields and properties per format. Some metadata may be added or removed based on the specification being followed.
 
