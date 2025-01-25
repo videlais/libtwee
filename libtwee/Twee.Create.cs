@@ -7,10 +7,11 @@ namespace libtwee
 {
     public partial class Twee
     {
-        /**
-         * <summary>
-         *   Create a Twee document from a Story object.
-         */
+        /// <summary>
+        /// Creates a Twee string from a Story object following the <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twee-3-specification.md">Twee 3 Specification</see>.
+        /// </summary>
+        /// <param name="story">The Story object to convert to a Twee string.</param>
+        /// <returns>A string containing the Twee representation of the Story object.</returns>
         public static string Create(Story story) 
         {
             // Create a new StringBuilder to store the output.

@@ -40,7 +40,7 @@ namespace TestTwee
                     ...
                 </note>
             ";
-            Assert.That(() => Twine2HTML.Parse(html), Throws.Exception.With.Message.EqualTo("ERROR: The document does not contain a <tw-storydata> element."));
+            Assert.That(() => Twine2HTML.Parse(html), Throws.Exception.With.Message.EqualTo("The document does not contain a <tw-storydata> element."));
         }
 
         [Test]

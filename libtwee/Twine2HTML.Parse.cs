@@ -4,20 +4,16 @@ using HtmlAgilityPack;
 
 namespace libtwee
 {
+    /// <summary>
+    /// Class <c>Twine2HTML</c> provides methods to compile a story and story format into HTML code based on <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-htmloutput-spec.md">Twine 2 HTML Output Specification</see>. 
+    /// </summary>
     public partial class Twine2HTML
     {
-        /**
-         * <summary>
-         *   Parse a Twine 2 HTML document and return a Story object.
-         *
-         *  libtwee considers all input as a partial story. 
-         *  It will only enforce required elements when producing output.
-         *  (https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-htmloutput-spec.md)
-         * </summary>
-         * 
-         * @param html Twine 2 HTML.
-         * @return A Story object.
-         */
+        /// <summary>
+        /// Parses a Twine 2 HTML document and returns a <see cref="Story"/> object.
+        /// </summary>
+        /// <param name="html">The Twine 2 HTML document as a string.</param>
+        /// <returns>A <see cref="Story"/> object representing the parsed Twine 2 HTML document.</returns>
         public static Story Parse(string html)
         {
             // Create a new story object
@@ -30,7 +26,7 @@ namespace libtwee
             doc.LoadHtml(html);
 
             // Does the document contain a <tw-storydata> element?
-            var storyDataNode = doc.DocumentNode.SelectSingleNode("//tw-storydata") ?? throw new Exception("ERROR: The document does not contain a <tw-storydata> element.");
+            var storyDataNode = doc.DocumentNode.SelectSingleNode("//tw-storydata") ?? throw new MissingHTMLElementException("The document does not contain a <tw-storydata> element.");
 
             /**
                 <tw-storydata

@@ -7,13 +7,12 @@ namespace libtwee
 {
     public partial class Twee
     {
-        /**
-         * <summary>
-         *   Parse a Twee document and return a Story object.
-         *
-         *  libtwee considers all input as a partial story. 
-         *  It will only enforce required elements when producing output.
-         */
+        /// <summary>
+        /// Parses a Twee story from a string based on <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twee-3-specification.md">Twee 3 Specification</see>.
+        /// </summary>
+        /// <param name="twee">The Twee story to parse.</param>
+        /// <returns>The parsed Twee story.</returns>
+        /// <exception cref="Exception">Thrown when the Twee story is invalid.</exception>
         public static Story Parse(string twee) {
             // Create a new story object
             Story story = new();

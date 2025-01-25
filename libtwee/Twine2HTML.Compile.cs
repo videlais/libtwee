@@ -3,22 +3,18 @@ using System.Collections.Generic;
 
 namespace libtwee
 {
+    /// <summary>
+    /// Class <c>Twine2HTML</c> provides methods to compile a story and story format into HTML code based on <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-htmloutput-spec.md">Twine 2 HTML Output Specification</see>. 
+    /// </summary>
     public partial class Twine2HTML
     {
-        /**
-         * <summary>
-         *   Compile a story and story format and return HTML code.
-         *
-         *  (https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-htmloutput-spec.md)
-         * </summary>
-         * 
-         * @param story Story object.
-         * @param storyFormat Story format object.
-         * @throws Exception If the story format source is empty.
-         * @throws Exception If the story IFID is not a valid uppercase UUIDv4.
-         * @throws Exception If the story name is empty.
-         * @return string HTML code of story + story format.
-         */
+        /// <summary>
+        /// Compiles a story and story format into HTML code.
+        /// </summary>
+        /// <param name="story">The story to compile.</param>
+        /// <param name="storyFormat">The story format to use.</param>
+        /// <returns>The compiled HTML code.</returns>
+        /// <exception cref="Exception">Thrown when the story format source is empty or the story IFID is not a valid UUIDv4.</exception>
         public static string Compile(Story story, StoryFormat storyFormat)
         {
             // Check if the source of the storyFormat is not empty.

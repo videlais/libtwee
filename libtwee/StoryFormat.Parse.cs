@@ -6,11 +6,11 @@ namespace libtwee
 {
     public partial class StoryFormat 
     {
-        /**
-          * Parses a Twine 2 story format from a string.
-          * @param storFormatData The story format data.
-          * @returns The story format.
-          */
+        /// <summary>
+        /// Parses a story format from a string.
+        /// </summary>
+        /// <param name="storyFormatData">The story format data to parse.</param>
+        /// <returns>The parsed story format.</returns>
         public static StoryFormat Parse(string storyFormatData) 
         {
           // Create a new StoryFormat object

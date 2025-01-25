@@ -5,6 +5,9 @@ using System.Text.Json;
 
 namespace libtwee 
 {
+    /// <summary>
+    /// A class representing a story format in Twine.
+    /// </summary>
     public partial class StoryFormat 
     {
         // name: (string) Optional. The name of the story format. (Omitting the name will lead to an Untitled Story Format.)
@@ -42,6 +45,9 @@ namespace libtwee
         [JsonPropertyName("source")]
         public string Source { get; set; }
 
+        /// <summary>
+        /// Constructor for StoryFormat.
+        /// </summary>
         public StoryFormat()
         {
             Name = "Untitled Story Format";
@@ -55,17 +61,44 @@ namespace libtwee
             Source = "";
         }
 
+        /// <summary>
+        /// Deserializes a JSON string to a StoryFormat object.
+        /// </summary>
+        /// <param name="json">The JSON string to deserialize.</param>
+        /// <returns>A StoryFormat object.</returns>
         public static StoryFormat FromJson(string json)
         {
             var result = JsonSerializer.Deserialize<StoryFormat>(json) ?? throw new InvalidOperationException("Deserialization resulted in a null StoryFormat object.");
             return result;
         }
 
+        /// <summary>
+        /// Serializes the StoryFormat object to a JSON string.
+        /// </summary>
+        /// <returns>A JSON string.</returns>
         public string ToJson()
         {
-            return JsonSerializer.Serialize(this);
+            // Create string result
+            string result;
+
+            // Try to serialize the object
+            try 
+            {
+                result = JsonSerializer.Serialize(this);
+            }
+            catch (Exception ex) 
+            {
+                throw new InvalidOperationException("ERROR: Unable to serialize StoryFormat: " + ex.Message);
+            }
+
+            // Return the result
+            return result;
         }
 
+        /// <summary>
+        /// Writes the StoryFormat object to a string in a format suitable for inclusion in a Twine story.
+        /// </summary>
+        /// <returns>A string in a format suitable for inclusion in a Twine story.</returns>
         public string Write() 
         {
             // Wrap the JSON in a function.

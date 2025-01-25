@@ -6,13 +6,12 @@ namespace libtwee
 {
     public partial class Twine2JSON
     {
-        /**
-         * <summary>
-         *   Parse a Twine 2 JSON document and return a Story object.
-         *
-         *  libtwee considers all input as a partial story. 
-         *  It will only enforce required elements when producing output.
-         */
+        /// <summary>
+        /// Parses a JSON string into a Story object.
+        /// </summary>
+        /// <param name="json">String containing JSON data</param>
+        /// <returns><c>Story</c> object created from JSON data.</returns>
+        /// <exception cref="FormatException">Throws exception if JSON cannot be parsed</exception>
          public static Story Parse(string json) {
             // Create a new story object.
             Story story = new();

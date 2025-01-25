@@ -10,7 +10,7 @@ namespace TestTwee
         public void TestParse_InvalidHTML()
         {
             string html = "";
-            Assert.Throws<Exception>(() => Twine1HTML.Parse(html));
+            Assert.Throws<MissingHTMLElementException>(() => Twine1HTML.Parse(html));
         }
 
         [Test]
@@ -30,14 +30,14 @@ namespace TestTwee
         public void TestParse_MissingStoreArea()
         {
             string html = "<div id=\"storeArea\"></div>";
-            Assert.Throws<Exception>(() => Twine1HTML.Parse(html));
+            Assert.Throws<MissingHTMLElementException>(() => Twine1HTML.Parse(html));
         }
 
         [Test]
         public void TestParse_MissingTiddler()
         {
             string html = "<div id=\"storeArea\"><div></div></div>";
-            Assert.Throws<Exception>(() => Twine1HTML.Parse(html));
+            Assert.Throws<MissingHTMLElementException>(() => Twine1HTML.Parse(html));
         }
 
        [Test]

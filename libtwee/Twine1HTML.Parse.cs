@@ -4,20 +4,17 @@ using HtmlAgilityPack;
 
 namespace libtwee
 {
+    /// <summary>
+    /// Parses a story from Twine 1 HTML. Partial support for <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twine-1-htmloutput-doc.md">Twine 1 HTML Output</see>.
+    /// </summary>
     public partial class Twine1HTML
     {
-        /**
-         * <summary>
-         *   Parse a Twine 1 HTML document and return a Story object.
-         *
-         *  libtwee considers all input as a partial story. 
-         *  It will only enforce required elements when producing output.
-         *  (https://github.com/iftechfoundation/twine-specs/blob/master/twine-1-htmloutput-doc.md)
-         * </summary>
-         * 
-         * @param html Twine 2 HTML.
-         * @return A Story object.
-         */
+       /// <summary>
+       /// Parses a story from Twine 1 HTML into a <c>Story</c> object.
+       /// </summary>
+       /// <param name="html">HTML input</param>
+       /// <returns><c>Story</c> object from HTML</returns>
+       /// <exception cref="Exception"></exception>
         public static Story Parse(string html) {
             // Create a new story object
             Story story = new();
@@ -29,10 +26,10 @@ namespace libtwee
             doc.LoadHtml(html);
 
             // Does the document contain an element id="storeArea" or id="store-area"?
-            var storeAreaNode = (doc.GetElementbyId("storeArea") ?? doc.GetElementbyId("store-area")) ?? throw new Exception("ERROR: The document Twine 1 HTML elements");
+            var storeAreaNode = (doc.GetElementbyId("storeArea") ?? doc.GetElementbyId("store-area")) ?? throw new MissingHTMLElementException("Cannot find Twine 1 store area.");
 
             // Find every element with the 'tiddler' attribute.
-            var tiddlerNodes = storeAreaNode.SelectNodes("//*[@tiddler]") ?? throw new Exception("ERROR: The document does not contain any tiddler nodes.");
+            var tiddlerNodes = storeAreaNode.SelectNodes("//*[@tiddler]") ?? throw new MissingHTMLElementException("Cannot find any Twine 1 passages in the document.");
 
             /**
                 <div 

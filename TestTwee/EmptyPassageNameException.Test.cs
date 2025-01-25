@@ -11,7 +11,7 @@ namespace TestTwee
         public void Constructor_ShouldInitializeMessage()
         {
             // Arrange
-            var expectedMessage = "Passage name cannot be empty.";
+            var expectedMessage = "Passage name cannot be an empty string.";
 
             // Act
             var exception = new EmptyPassageNameException();

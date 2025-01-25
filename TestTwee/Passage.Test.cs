@@ -195,7 +195,7 @@ namespace TestTwee
                 Text = "This is a test passage."
             };
 
-            Assert.Throws<Exception>(() => passage.ToJson());
+            Assert.Throws<EmptyPassageNameException>(() => passage.ToJson());
         }
 
         [Test]
@@ -312,7 +312,7 @@ namespace TestTwee
                 Text = "This is a test passage."
             };
 
-            Assert.Throws<Exception>(() => passage.ToTwine1HTML());
+            Assert.Throws<EmptyPassageNameException>(() => passage.ToTwine1HTML());
         }
     }
 }

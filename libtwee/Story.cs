@@ -21,6 +21,9 @@ namespace libtwee
         public List<string> StoryStylesheets { get; set; }
         public List<string> StoryScripts { get; set; }
 
+        /// <summary>
+        /// Constructor for the Story class.
+        /// </summary>
         public Story()
         {
             Passages = [];
@@ -37,11 +40,11 @@ namespace libtwee
             StoryScripts = [];
         }
 
-        /**
-         * Adds a passage to the story.
-         * @param p The passage to add.
-         * @return The number of passages in the story after adding the passage.
-         */
+       /// <summary>
+       /// Adds a passage to the story.
+       /// </summary>
+       /// <param name="p">Passage to add to the story.</param>
+       /// <returns>Number of passages in story</returns>
         public int AddPassage(Passage p)
         {
             // Check if the passage already exists in the story.
@@ -149,10 +152,10 @@ namespace libtwee
             return Passages.Count;
         }
 
-        /**
-         * Removes a passage from the story by name.
-         * @param name The name of the passage to remove.
-         */
+        /// <summary>
+        /// Removes a passage from the story by its name.
+        /// </summary>
+        /// <param name="name">Name of the passage to remove</param>
         public void RemovePassageByName(string name)
         {
             Passages.RemoveAll(p => p.Name == name);

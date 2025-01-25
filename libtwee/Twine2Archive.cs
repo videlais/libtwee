@@ -4,10 +4,17 @@ using HtmlAgilityPack;
 
 namespace libtwee
 {
+    /// <summary>
+    /// A class representing a Twine 2 archive following <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-archive-spec.md">Twine 2 Archive Specification</see>.
+    /// </summary>
     public class Twine2Archive
     {
         public List<Story> Stories { get; set; } = [];
 
+        /// <summary>
+        /// Creates a string containing the HTML of all stories in the archive.
+        /// </summary>
+        /// <returns>String containing multiple Twine 2 stories as HTML.</returns>
         public string CreateHTML() 
         {
             // Create initial string.
@@ -26,6 +33,11 @@ namespace libtwee
             return output;
         }
 
+        /// <summary>
+        /// Parses a string containing multiple Twine 2 stories as HTML.
+        /// </summary>
+        /// <param name="html">String containing multiple Twine 2 stories as HTML.</param>
+        /// <returns>Twine2Archive object.</returns>
         public static Twine2Archive Parse(string html) 
         {
             // Create a new Twine2Archive object.
@@ -39,7 +51,7 @@ namespace libtwee
 
            // Find all instances, if any, of the <tw-storydata> element.
            // If there are none, throw an exception.
-           HtmlNodeCollection entries = doc.DocumentNode.SelectNodes("//tw-storydata") ?? throw new Exception("ERROR: The document does not contain a <tw-storydata> element.");
+           HtmlNodeCollection entries = doc.DocumentNode.SelectNodes("//tw-storydata") ?? throw new MissingHTMLElementException("The document does not contain a <tw-storydata> element.");
 
             // Loop through each <tw-storydata> element.
             foreach (HtmlNode entry in entries)
