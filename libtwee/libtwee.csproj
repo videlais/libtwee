@@ -1,16 +1,35 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
+    <PackageId>Videlais.libtwee</PackageId>
+    <Version>1.0.0</Version>
+    <Authors>Dan Cox</Authors>
+    <Company>Videlais</Company>
+    <PackageTags>Twine;Twee;Twee compiler</PackageTags>
     <TargetFramework>net9.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
     <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
     <OutputType>Library</OutputType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <RepositoryUrl>https://github.com/videlais/libtwee</RepositoryUrl>
+    <RepositoryBranch>main</RepositoryBranch>
+    <RepositoryCommit>HEAD</RepositoryCommit>
+    <PackageProjectUrl>https://github.com/videlais/libtwee</PackageProjectUrl>
+    <RepositoryType>git</RepositoryType>
+    <Copyright>Copyright (c) 2024 Dan Cox</Copyright>
+    <Description>
+     This is a library for parsing and compiling historical and current files related to the Twine ecosystem including HTML, Twee, and JSON file formats.
+    </Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="HtmlAgilityPack" Version="1.11.72" />
+    <None Include="../README.md" Pack="true" PackagePath="\"/>
   </ItemGroup>
 
 </Project>
