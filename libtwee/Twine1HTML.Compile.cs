@@ -2,14 +2,14 @@ namespace libtwee
 {
     public partial class Twine1HTML
     {
-       /// <summary>
-       /// Compiles a story into Twine 1 HTML. Partial support for <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twine-1-htmloutput-doc.md">Twine 1 HTML Output</see>.
-       /// </summary>
-       /// <param name="story">Story object to compile</param>
-       /// <param name="engine">Engine code to compile</param>
-       /// <param name="header">Header HTML</param>
-       /// <returns>String containing Twine 1 HTML</returns>
-        public static string Compile(Story story, string engine = "", string header = "") 
+        /// <summary>
+        /// Compiles a story into Twine 1 HTML. Partial support for <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twine-1-htmloutput-doc.md">Twine 1 HTML Output</see>.
+        /// </summary>
+        /// <param name="story">Story object to compile</param>
+        /// <param name="engine">Engine code to compile</param>
+        /// <param name="header">Header HTML</param>
+        /// <returns>String containing Twine 1 HTML</returns>
+        public static string Compile(Story story, string engine = "", string header = "")
         {
             // Replace the "VERSION" with story.creator in the header HTML.
             header = header.Replace("VERSION", story.Creator);

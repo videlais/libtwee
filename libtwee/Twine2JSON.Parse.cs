@@ -10,17 +10,21 @@ namespace libtwee
         /// <param name="json">String containing JSON data</param>
         /// <returns><c>Story</c> object created from JSON data.</returns>
         /// <exception cref="FormatException">Throws exception if JSON cannot be parsed</exception>
-         public static Story Parse(string json) {
+        public static Story Parse(string json)
+        {
             // Create a new story object.
             Story story = new();
 
             // Create a new dictionary to store the parsed JSON data.
             Dictionary<string, object> data = [];
 
-            try {
+            try
+            {
                 // Parse the JSON into a dictionary.
                 data = JsonSerializer.Deserialize<Dictionary<string, object>>(json) ?? [];
-            } catch (JsonException e) {
+            }
+            catch (JsonException e)
+            {
                 throw new FormatException("ERROR: Invalid JSON format.", e);
             }
 
@@ -46,9 +50,12 @@ namespace libtwee
 
             // Parse the story metadata.
             // name: (string) Required. The name of the story.
-            if(data.TryGetValue("name", out object? nameValue)) {
+            if (data.TryGetValue("name", out object? nameValue))
+            {
                 story.Name = nameValue?.ToString() ?? "Untitled";
-            } else {
+            }
+            else
+            {
                 // Produce warning if name is missing.
                 Console.WriteLine("WARNING: name is required. Ignoring data.");
             }
@@ -66,7 +73,8 @@ namespace libtwee
             story.Start = data.TryGetValue("start", out object? startValue) ? startValue?.ToString() ?? "" : "";
 
             // Test if the tag-colors key exists in the data dictionary.
-            if(data.TryGetValue("tag-colors", out object? tagColorsValue)) {
+            if (data.TryGetValue("tag-colors", out object? tagColorsValue))
+            {
                 // Create empty KeyValuePair collection to store the tag-colors.
                 Dictionary<string, string> tagColors = [];
 
@@ -86,7 +94,8 @@ namespace libtwee
             }
 
             // zoom: (float) Optional. The zoom level of the story. Maps to <tw-storydata zoom>.
-            if(data.TryGetValue("zoom", out object? zoomValue) && zoomValue is JsonElement zoomElement && zoomElement.TryGetSingle(out float zoom)) {
+            if (data.TryGetValue("zoom", out object? zoomValue) && zoomValue is JsonElement zoomElement && zoomElement.TryGetSingle(out float zoom))
+            {
                 story.Zoom = zoom;
             }
 
@@ -117,21 +126,27 @@ namespace libtwee
             */
 
             // Parse the story passages.
-            if (data.TryGetValue("passages", out object? passagesValue)) {
+            if (data.TryGetValue("passages", out object? passagesValue))
+            {
                 // Convert passagesValue to a list of dictionaries.
-                if(passagesValue != null) {
+                if (passagesValue != null)
+                {
                     // Create a new list to store the passages.
                     List<Dictionary<string, object>> passages = [];
 
-                    try {
+                    try
+                    {
                         passages = JsonSerializer.Deserialize<List<Dictionary<string, object>>>(passagesValue.ToString() ?? string.Empty) ?? [];
-                    } catch (JsonException e) {
+                    }
+                    catch (JsonException e)
+                    {
                         // Produce warning if passagesValue is not a list of dictionaries.
                         Console.WriteLine("WARNING: passages is not a valid collection of passage data. JSON Exception: " + e.Message);
                     }
 
                     // Loop through the passages.
-                    foreach (Dictionary<string, object> passage in passages) {
+                    foreach (Dictionary<string, object> passage in passages)
+                    {
                         // Create a new passage object.
                         Passage newPassage = new()
                         {
@@ -139,17 +154,20 @@ namespace libtwee
                             Name = passage.TryGetValue("name", out object? pNameValue) ? pNameValue?.ToString() ?? "" : ""
                         };
                         // tags: (string[]) Optional. The tags of the passage.
-                        if (passage.TryGetValue("tags", out object? tagsValue)) {
+                        if (passage.TryGetValue("tags", out object? tagsValue))
+                        {
                             // Convert tagsValue to a list of strings.
                             List<string> tags = tagsValue != null ? JsonSerializer.Deserialize<List<string>>(tagsValue.ToString() ?? string.Empty) ?? [] : [];
                             // Loop through the tags.
-                            foreach (string tag in tags) {
+                            foreach (string tag in tags)
+                            {
                                 // Add the tag to the passage object.
                                 newPassage.Tags.Add(tag);
                             }
                         }
                         // metadata: (Dictionary<string, object>) Optional. The metadata of the passage.
-                        if (passage.TryGetValue("metadata", out object? metadataValue) && metadataValue is Dictionary<string, object> metadata) {
+                        if (passage.TryGetValue("metadata", out object? metadataValue) && metadataValue is Dictionary<string, object> metadata)
+                        {
                             // position: (string) Optional. The position of the passage.
                             //newPassage.Metadata.Position = metadata.TryGetValue("position", out object? positionValue) ? positionValue?.ToString() ?? "" : "";
                             // size: (string) Optional. The size of the passage.
@@ -160,7 +178,9 @@ namespace libtwee
                         // Add the passage to the story object.
                         story.Passages.Add(newPassage);
                     }
-                } else {
+                }
+                else
+                {
                     // Produce warning if passages is missing.
                     Console.WriteLine("WARNING: No passages found.");
                 }
@@ -168,6 +188,6 @@ namespace libtwee
 
             // Return the story object.
             return story;
-         }
+        }
     }
 }

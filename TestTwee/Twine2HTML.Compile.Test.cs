@@ -31,7 +31,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void Compile_ValidInput_MinimumStory() {
+        public void Compile_ValidInput_MinimumStory()
+        {
             // Arrange
             var story = new Story { Name = "Test Story", IFID = "12345678-1234-5678-1234-567812345678" };
             var storyFormat = new StoryFormat { Source = """<!DOCTYPE html><html><head><meta charset=\"utf-8\"><title>{{STORY_NAME}}</title></head><body>{{STORY_DATA}}</body></html>""" };

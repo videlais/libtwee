@@ -6,7 +6,7 @@ namespace TestTwee
     [TestFixture]
     public class StoryFormatTests
     {
-        private StoryFormat _storyFormat;
+        private StoryFormat? _storyFormat;
 
         [SetUp]
         public void SetUp()
@@ -25,79 +25,105 @@ namespace TestTwee
         {
             Assert.Multiple(() =>
             {
-                Assert.That(_storyFormat.Name, Is.EqualTo("Untitled Story Format"));
-                Assert.That(_storyFormat.Version, Is.EqualTo("0.0.0"));
-                Assert.That(_storyFormat.Author, Is.EqualTo(""));
-                Assert.That(_storyFormat.Description, Is.EqualTo(""));
-                Assert.That(_storyFormat.Image, Is.EqualTo(""));
-                Assert.That(_storyFormat.Url, Is.EqualTo(""));
-                Assert.That(_storyFormat.License, Is.EqualTo(""));
-                Assert.That(_storyFormat.Proofing, Is.False);
-                Assert.That(_storyFormat.Source, Is.EqualTo(""));
+                Assert.That(_storyFormat?.Name, Is.EqualTo("Untitled Story Format"));
+                Assert.That(_storyFormat?.Version, Is.EqualTo("0.0.0"));
+                Assert.That(_storyFormat?.Author, Is.EqualTo(""));
+                Assert.That(_storyFormat?.Description, Is.EqualTo(""));
+                Assert.That(_storyFormat?.Image, Is.EqualTo(""));
+                Assert.That(_storyFormat?.Url, Is.EqualTo(""));
+                Assert.That(_storyFormat?.License, Is.EqualTo(""));
+                Assert.That(_storyFormat?.Proofing, Is.False);
+                Assert.That(_storyFormat?.Source, Is.EqualTo(""));
             });
         }
 
         [Test]
         public void TestSetName()
         {
-            _storyFormat.Name = "NewName";
-            Assert.That(_storyFormat.Name, Is.EqualTo("NewName"));
+            if (_storyFormat != null)
+            {
+                _storyFormat.Name = "NewName";
+            }
         }
 
         [Test]
         public void TestSetVersion()
         {
-            _storyFormat.Version = "2.0";
-            Assert.That(_storyFormat.Version, Is.EqualTo("2.0"));
+            if (_storyFormat != null)
+            {
+                _storyFormat.Version = "2.0";
+                Assert.That(_storyFormat.Version, Is.EqualTo("2.0"));
+            }
         }
 
         [Test]
         public void TestSetAuthor()
         {
-            _storyFormat.Author = "NewAuthor";
-            Assert.That(_storyFormat.Author, Is.EqualTo("NewAuthor"));
+            if (_storyFormat != null)
+            {
+                _storyFormat.Author = "NewAuthor";
+            }
+            Assert.That(_storyFormat?.Author, Is.EqualTo("NewAuthor"));
         }
 
         [Test]
         public void TestSetDescription()
         {
-            _storyFormat.Description = "NewDescription";
-            Assert.That(_storyFormat.Description, Is.EqualTo("NewDescription"));
+            if (_storyFormat != null)
+            {
+                _storyFormat.Description = "NewDescription";
+                Assert.That(_storyFormat.Description, Is.EqualTo("NewDescription"));
+            }
         }
 
         [Test]
         public void TestSetImage()
         {
-            _storyFormat.Image = "NewImage";
-            Assert.That(_storyFormat.Image, Is.EqualTo("NewImage"));
+            if (_storyFormat != null)
+            {
+                _storyFormat.Image = "NewImage";
+                Assert.That(_storyFormat.Image, Is.EqualTo("NewImage"));
+            }
         }
 
         [Test]
         public void TestSetUrl()
         {
-            _storyFormat.Url = "NewUrl";
-            Assert.That(_storyFormat.Url, Is.EqualTo("NewUrl"));
+            if (_storyFormat != null)
+            {
+                _storyFormat.Url = "NewUrl";
+                Assert.That(_storyFormat.Url, Is.EqualTo("NewUrl"));
+            }
         }
 
         [Test]
         public void TestSetLicense()
         {
-            _storyFormat.License = "NewLicense";
-            Assert.That(_storyFormat.License, Is.EqualTo("NewLicense"));
+            if (_storyFormat != null)
+            {
+                _storyFormat.License = "NewLicense";
+                Assert.That(_storyFormat.License, Is.EqualTo("NewLicense"));
+            }
         }
 
         [Test]
         public void TestSetProofing()
         {
-            _storyFormat.Proofing = true;
-            Assert.That(_storyFormat.Proofing, Is.True);
+            if (_storyFormat != null)
+            {
+                _storyFormat.Proofing = true;
+            }
+            Assert.That(_storyFormat?.Proofing, Is.True);
         }
 
         [Test]
         public void TestSetSource()
         {
-            _storyFormat.Source = "NewSource";
-            Assert.That(_storyFormat.Source, Is.EqualTo("NewSource"));
+            if (_storyFormat != null)
+            {
+                _storyFormat.Source = "NewSource";
+            }
+            Assert.That(_storyFormat?.Source, Is.EqualTo("NewSource"));
         }
 
         [Test]
@@ -122,34 +148,40 @@ namespace TestTwee
         [Test]
         public void TestToJson()
         {
-            _storyFormat.Name = "NewName";
-            _storyFormat.Version = "2.0";
-            _storyFormat.Author = "NewAuthor";
-            _storyFormat.Description = "NewDescription";
-            _storyFormat.Image = "NewImage";
-            _storyFormat.Url = "NewUrl";
-            _storyFormat.License = "NewLicense";
-            _storyFormat.Proofing = true;
-            _storyFormat.Source = "NewSource";
+            if (_storyFormat != null)
+            {
+                _storyFormat.Name = "NewName";
+                _storyFormat.Version = "2.0";
+                _storyFormat.Author = "NewAuthor";
+                _storyFormat.Description = "NewDescription";
+                _storyFormat.Image = "NewImage";
+                _storyFormat.Url = "NewUrl";
+                _storyFormat.License = "NewLicense";
+                _storyFormat.Proofing = true;
+                _storyFormat.Source = "NewSource";
+            }
 
-            var json = _storyFormat.ToJson();
+            var json = _storyFormat?.ToJson();
             Assert.That(json, Is.EqualTo("{\"name\":\"NewName\",\"version\":\"2.0\",\"author\":\"NewAuthor\",\"description\":\"NewDescription\",\"image\":\"NewImage\",\"url\":\"NewUrl\",\"license\":\"NewLicense\",\"proofing\":true,\"source\":\"NewSource\"}"));
         }
 
         [Test]
         public void TestWrite()
         {
-            _storyFormat.Name = "NewName";
-            _storyFormat.Version = "2.0";
-            _storyFormat.Author = "NewAuthor";
-            _storyFormat.Description = "NewDescription";
-            _storyFormat.Image = "NewImage";
-            _storyFormat.Url = "NewUrl";
-            _storyFormat.License = "NewLicense";
-            _storyFormat.Proofing = true;
-            _storyFormat.Source = "NewSource";
+            if (_storyFormat != null)
+            {
+                _storyFormat.Name = "NewName";
+                _storyFormat.Version = "2.0";
+                _storyFormat.Author = "NewAuthor";
+                _storyFormat.Description = "NewDescription";
+                _storyFormat.Image = "NewImage";
+                _storyFormat.Url = "NewUrl";
+                _storyFormat.License = "NewLicense";
+                _storyFormat.Proofing = true;
+                _storyFormat.Source = "NewSource";
+            }
 
-            var result = _storyFormat.Write();
+            var result = _storyFormat?.Write();
             Assert.That(result, Is.EqualTo("window.storyFormat({\"name\":\"NewName\",\"version\":\"2.0\",\"author\":\"NewAuthor\",\"description\":\"NewDescription\",\"image\":\"NewImage\",\"url\":\"NewUrl\",\"license\":\"NewLicense\",\"proofing\":true,\"source\":\"NewSource\"});"));
         }
 

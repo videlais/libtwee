@@ -1,7 +1,7 @@
 using System.Text;
 using System.Text.Json;
 
-namespace libtwee 
+namespace libtwee
 {
     public partial class Twee
     {
@@ -11,7 +11,8 @@ namespace libtwee
         /// <param name="twee">The Twee story to parse.</param>
         /// <returns>The parsed Twee story.</returns>
         /// <exception cref="Exception">Thrown when the Twee story is invalid.</exception>
-        public static Story Parse(string twee) {
+        public static Story Parse(string twee)
+        {
             // Create a new story object
             Story story = new();
 
@@ -23,19 +24,23 @@ namespace libtwee
             int delimiterIndex = Array.IndexOf(bytes, (byte)':');
 
             // Was at least one colon found?
-            if (delimiterIndex == -1) {
+            if (delimiterIndex == -1)
+            {
                 throw new Exception("ERROR: The document does not contain any passages.");
             }
 
             // Is there more content after the colon?
-            if (delimiterIndex + 1 >= bytes.Length) {
+            if (delimiterIndex + 1 >= bytes.Length)
+            {
                 throw new Exception("ERROR: The document does not contain any passages.");
             }
 
             // Check if the next character is also a colon.
-            if (bytes[delimiterIndex + 1] == (byte)':') {
+            if (bytes[delimiterIndex + 1] == (byte)':')
+            {
                 // Is there more content after the second colon?
-                if (delimiterIndex + 2 >= bytes.Length) {
+                if (delimiterIndex + 2 >= bytes.Length)
+                {
                     throw new Exception("ERROR: The document does not contain any passages.");
                 }
 
@@ -44,7 +49,8 @@ namespace libtwee
 
                 // While there is content after the second colon, keep looking for passages.
                 // Begin with the first passage header.
-                while (position < bytes.Length) {
+                while (position < bytes.Length)
+                {
                     // Create a tempnName variable to store the passage name.
                     string tempName = "";
 
@@ -53,7 +59,7 @@ namespace libtwee
 
                     // Create a tempContent variable to store the passage JSON metadata.
                     string tempMetadata = "{";
-                    
+
                     // Continue to append characters to the tempName 
                     //  variable until a '[', '{', or newline is found.
                     //
@@ -62,7 +68,8 @@ namespace libtwee
                            bytes[position] != (byte)'[' &&
                            bytes[position] != (byte)'{' &&
                            bytes[position] != (byte)'\n'
-                           ) {
+                           )
+                    {
                         // Append the current character to the tempName variable.
                         tempName += (char)bytes[position];
                         // Move the position to the next character.
@@ -79,19 +86,21 @@ namespace libtwee
                     // (4) We have read to a '[' and have a passage name, tags, and metadata.
 
                     // Check if the current position is '['.
-                    if (position < bytes.Length && 
-                        bytes[position] == (byte)'[') {
+                    if (position < bytes.Length &&
+                        bytes[position] == (byte)'[')
+                    {
                         // Move the position to the character after the '['.
                         position++;
-                        
+
                         // Continue to append characters to the tempTags variable until a ']' is found.
                         // Ignore escaped characters.
-                        while (position < bytes.Length && 
-                               bytes[position] != (byte)']') {
+                        while (position < bytes.Length &&
+                               bytes[position] != (byte)']')
+                        {
                             tempTags += (char)bytes[position];
                             position++;
                         }
-                        
+
                         // Move the position to the character after the ']'.
                         position++;
                     }
@@ -99,24 +108,27 @@ namespace libtwee
                     // After tags, we might have spaces, beginning of metadata, or newline.
                     // Keep reading until we find the metadata or newline.
                     while (position < bytes.Length &&
-                           bytes[position] != (byte)'{' && bytes[position]-1 != (byte)'\\' &&
+                           bytes[position] != (byte)'{' && bytes[position] - 1 != (byte)'\\' &&
                            bytes[position] != (byte)'\n'
-                           ) {
+                           )
+                    {
                         position++;
                     }
 
                     // Check if the current position is '{'.
                     if (position < bytes.Length &&
-                        bytes[position] == (byte)'{' && bytes[position]-1 != (byte)'\\') {
+                        bytes[position] == (byte)'{' && bytes[position] - 1 != (byte)'\\')
+                    {
                         // Move the position to the character after the '{'.
                         position++;
-                        
+
                         // Continue to append characters to the tempMetadata variable
                         //  until a '{', newline, or content runs out.
                         while (position < bytes.Length &&
-                            bytes[position] != (byte)'{' && bytes[position]-1 != (byte)'\\' &&
+                            bytes[position] != (byte)'{' && bytes[position] - 1 != (byte)'\\' &&
                                bytes[position] != (byte)'\n'
-                               ) {
+                               )
+                        {
                             tempMetadata += (char)bytes[position];
                             position++;
                         }
@@ -124,13 +136,15 @@ namespace libtwee
 
                     // After metadata, we might have spaces or newline.
                     // Keep reading until we find the newline.
-                    while (position < bytes.Length && bytes[position] != (byte)'\n') {
+                    while (position < bytes.Length && bytes[position] != (byte)'\n')
+                    {
                         position++;
                     }
 
                     // Move the position to the character after the newline.
                     // Is there more content after the newline in the passage header?
-                    if (position < bytes.Length && position + 1 >= bytes.Length) {
+                    if (position < bytes.Length && position + 1 >= bytes.Length)
+                    {
                         throw new Exception("ERROR: The document contains invalid passage.");
                     }
 
@@ -143,11 +157,14 @@ namespace libtwee
 
                     // Continue to append characters to the tempContent variable
                     // Append until the new passage delimiter is found or the content runs out.
-                    while (position < bytes.Length) {
+                    while (position < bytes.Length)
+                    {
                         // Check if the current character is a colon.
-                        if (bytes[position] == (byte)':') {
+                        if (bytes[position] == (byte)':')
+                        {
                             // Check if the next character is also a colon.
-                            if (bytes[position + 1] == (byte)':') {
+                            if (bytes[position + 1] == (byte)':')
+                            {
                                 // This might be a new passage header.
                                 // Break out of the internal loop.
                                 break;
@@ -178,7 +195,8 @@ namespace libtwee
                     };
 
                     // This is a JSON object, so we need to parse it.
-                    try {
+                    try
+                    {
                         if (!string.IsNullOrEmpty(tempMetadata))
                         {
                             var metadata = JsonSerializer.Deserialize<Dictionary<string, object>>(tempMetadata);
@@ -189,7 +207,9 @@ namespace libtwee
                                 passage.Metadata = metadata;
                             }
                         }
-                    } catch (Exception e) {
+                    }
+                    catch (Exception e)
+                    {
                         Console.WriteLine($"WARN: Unable to parse passage metadata. {e.Message}");
                     }
 
@@ -197,13 +217,13 @@ namespace libtwee
                     passage.Text = tempContent;
 
                     // Add the passage to the story.
-                    story.Passages.Add(passage);   
+                    story.Passages.Add(passage);
                 }
             }
 
             // Return the story object.
             return story;
-        } 
+        }
 
     }
 

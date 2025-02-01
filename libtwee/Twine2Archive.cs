@@ -13,7 +13,7 @@ namespace libtwee
         /// Creates a string containing the HTML of all stories in the archive.
         /// </summary>
         /// <returns>String containing multiple Twine 2 stories as HTML.</returns>
-        public string CreateHTML() 
+        public string CreateHTML()
         {
             // Create initial string.
             string output = "";
@@ -36,7 +36,7 @@ namespace libtwee
         /// </summary>
         /// <param name="html">String containing multiple Twine 2 stories as HTML.</param>
         /// <returns>Twine2Archive object.</returns>
-        public static Twine2Archive Parse(string html) 
+        public static Twine2Archive Parse(string html)
         {
             // Create a new Twine2Archive object.
             Twine2Archive archive = new();
@@ -47,20 +47,20 @@ namespace libtwee
             // Load the HTML into the document
             doc.LoadHtml(html);
 
-           // Find all instances, if any, of the <tw-storydata> element.
-           // If there are none, throw an exception.
-           HtmlNodeCollection entries = doc.DocumentNode.SelectNodes("//tw-storydata") ?? throw new MissingHTMLElementException("The document does not contain a <tw-storydata> element.");
+            // Find all instances, if any, of the <tw-storydata> element.
+            // If there are none, throw an exception.
+            HtmlNodeCollection entries = doc.DocumentNode.SelectNodes("//tw-storydata") ?? throw new MissingHTMLElementException("The document does not contain a <tw-storydata> element.");
 
             // Loop through each <tw-storydata> element.
             foreach (HtmlNode entry in entries)
             {
                 // Parse the <tw-storydata> element.
                 Story story = Twine2HTML.Parse(entry.OuterHtml);
-                
+
                 // Add the Story object to the Twine2Archive object.
                 archive.Stories.Add(story);
             }
-            
+
             // Return the Twine2Archive object.
             return archive;
         }

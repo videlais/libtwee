@@ -7,7 +7,8 @@ namespace TestTwee
     public class StoryFormatParseTests
     {
         [Test]
-        public void TestParse_Invalid() {
+        public void TestParse_Invalid()
+        {
             string json = "";
             Assert.Throws<Exception>(() => StoryFormat.Parse(json));
         }

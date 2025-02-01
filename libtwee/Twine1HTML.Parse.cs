@@ -7,13 +7,14 @@ namespace libtwee
     /// </summary>
     public partial class Twine1HTML
     {
-       /// <summary>
-       /// Parses a story from Twine 1 HTML into a <c>Story</c> object.
-       /// </summary>
-       /// <param name="html">HTML input</param>
-       /// <returns><c>Story</c> object from HTML</returns>
-       /// <exception cref="Exception"></exception>
-        public static Story Parse(string html) {
+        /// <summary>
+        /// Parses a story from Twine 1 HTML into a <c>Story</c> object.
+        /// </summary>
+        /// <param name="html">HTML input</param>
+        /// <returns><c>Story</c> object from HTML</returns>
+        /// <exception cref="Exception"></exception>
+        public static Story Parse(string html)
+        {
             // Create a new story object
             Story story = new();
 
@@ -40,7 +41,8 @@ namespace libtwee
             */
 
             // Parse each tiddler node
-            foreach (var tiddlerNode in tiddlerNodes) {
+            foreach (var tiddlerNode in tiddlerNodes)
+            {
                 // Create a new passage object
                 Passage passage = new()
                 {
@@ -64,25 +66,29 @@ namespace libtwee
                 // These are included as incoming metadata.
 
                 // Does this element have the 'created' attribute?
-                if (tiddlerNode.Attributes["created"] != null) {
+                if (tiddlerNode.Attributes["created"] != null)
+                {
                     // Add the 'created' attribute to the metadata
                     passage.Metadata.Add("created", tiddlerNode.GetAttributeValue("created", string.Empty));
                 }
 
                 // Does this element have the 'modifier' attribute?
-                if (tiddlerNode.Attributes["modifier"] != null) {
+                if (tiddlerNode.Attributes["modifier"] != null)
+                {
                     // Add the 'modifier' attribute to the metadata
                     passage.Metadata.Add("modifier", tiddlerNode.GetAttributeValue("modifier", string.Empty));
                 }
 
                 // Does this element have the 'modified' attribute?
-                if (tiddlerNode.Attributes["modified"] != null) {
+                if (tiddlerNode.Attributes["modified"] != null)
+                {
                     // Add the 'modified' attribute to the metadata
                     passage.Metadata.Add("modified", tiddlerNode.GetAttributeValue("modified", string.Empty));
                 }
 
                 // Does this element have the 'twine-position' attribute?
-                if (tiddlerNode.Attributes["twine-position"] != null) {
+                if (tiddlerNode.Attributes["twine-position"] != null)
+                {
                     // Add the 'twine-position' attribute to the metadata
                     passage.Metadata.Add("position", tiddlerNode.GetAttributeValue("twine-position", string.Empty));
                 }
@@ -97,7 +103,8 @@ namespace libtwee
             var storyCSSNode = doc.GetElementbyId("storyCSS") ?? doc.GetElementbyId("story-style");
 
             // Does the document contain a story stylesheet?
-            if (storyCSSNode != null) {
+            if (storyCSSNode != null)
+            {
                 // Add the story stylesheet to the story
                 story.StoryStylesheets.Add(storyCSSNode.InnerHtml);
             }

@@ -38,11 +38,11 @@ namespace libtwee
             StoryScripts = [];
         }
 
-       /// <summary>
-       /// Adds a passage to the story.
-       /// </summary>
-       /// <param name="p">Passage to add to the story.</param>
-       /// <returns>Number of passages in story</returns>
+        /// <summary>
+        /// Adds a passage to the story.
+        /// </summary>
+        /// <param name="p">Passage to add to the story.</param>
+        /// <returns>Number of passages in story</returns>
         public int AddPassage(Passage p)
         {
             // Check if the passage already exists in the story.
@@ -63,13 +63,17 @@ namespace libtwee
                 var metadata = new Dictionary<string, object>();
 
                 // Try to deserialize the JSON into a dictionary.
-                try {
+                try
+                {
                     metadata = JsonSerializer.Deserialize<Dictionary<string, object>>(p.Text);
-                } catch (JsonException e) {
+                }
+                catch (JsonException e)
+                {
                     Console.WriteLine($"Error: {e.Message}");
                 }
 
-                if(metadata != null) {
+                if (metadata != null)
+                {
                     // Does the StoryData contain 'ifid'?
                     if (metadata.TryGetValue("ifid", out object? ifidValue))
                     {
@@ -98,7 +102,7 @@ namespace libtwee
                     if (metadata.TryGetValue("zoom", out object? zoomValue) && zoomValue is JsonElement element && element.TryGetDouble(out double zoom))
                     {
                         // Convert the zoom value to a float.
-                        Zoom = (float) zoom;
+                        Zoom = (float)zoom;
                     }
 
                     // Does the StoryData contain 'tag-colors'?

@@ -10,13 +10,15 @@ namespace TestTwee
     {
 
         [Test]
-        public void TestParseTwine2JSON_InvalidDocument() {
+        public void TestParseTwine2JSON_InvalidDocument()
+        {
             string json = "invalid json";
             Assert.Throws<FormatException>(() => Twine2JSON.Parse(json));
         }
 
         [Test]
-        public void TestParseTwine2JSON_ValidDocument_NoPassages() {
+        public void TestParseTwine2JSON_ValidDocument_NoPassages()
+        {
             string json = @"
             {
                 ""name"": ""Example"",
@@ -53,7 +55,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2JSON_ValidDocument_EmptyPassages() {
+        public void TestParseTwine2JSON_ValidDocument_EmptyPassages()
+        {
             string json = @"
             {
                 ""name"": ""Example"",
@@ -79,7 +82,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2JSON_ValidDocument_InvalidPassage() {
+        public void TestParseTwine2JSON_ValidDocument_InvalidPassage()
+        {
             string json = @"
             {
                 ""name"": ""Example"",
@@ -105,7 +109,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2JSON_ValidDocument_SinglePassage() {
+        public void TestParseTwine2JSON_ValidDocument_SinglePassage()
+        {
             string json = @"
             {
                 ""name"": ""Example"",
@@ -133,7 +138,7 @@ namespace TestTwee
             }
             ";
             Story story = Twine2JSON.Parse(json);
-            
+
             Assert.Multiple(() =>
             {
                 Assert.That(story.Passages, Has.Count.EqualTo(1));
@@ -147,7 +152,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void TestParseTwine2JSON_Passages_Null() {
+        public void TestParseTwine2JSON_Passages_Null()
+        {
             string json = @"
             {
                 ""name"": ""Example"",
@@ -173,7 +179,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void ParseTwine2JSON_MinimumValid_OnlyName() {
+        public void ParseTwine2JSON_MinimumValid_OnlyName()
+        {
             string json = @"
             {
                 ""name"": ""Example""
@@ -184,14 +191,16 @@ namespace TestTwee
         }
 
         [Test]
-        public void ParseTwine2JSON_Minimum_MissingName() {
+        public void ParseTwine2JSON_Minimum_MissingName()
+        {
             string json = @"{}";
             Story story = Twine2JSON.Parse(json);
             Assert.That(story.Name, Is.EqualTo("Untitled"));
         }
 
         [Test]
-        public void ParseTwine2JSON_MissingTagColors() {
+        public void ParseTwine2JSON_MissingTagColors()
+        {
             string json = @"
             {
                 ""name"": ""Example"",
@@ -211,7 +220,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void ParseTwine2JSON_EmptyTagColors() {
+        public void ParseTwine2JSON_EmptyTagColors()
+        {
             string json = @"
             {
                 ""name"": ""Example"",
@@ -230,9 +240,10 @@ namespace TestTwee
             Story story = Twine2JSON.Parse(json);
             Assert.That(story.TagColors, Has.Count.EqualTo(0));
         }
-    
+
         [Test]
-        public void ParseTwine2JSON_TagColors_StringNotCollection() {
+        public void ParseTwine2JSON_TagColors_StringNotCollection()
+        {
             string json = @"
             {
                 ""name"": ""Example"",

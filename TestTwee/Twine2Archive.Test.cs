@@ -62,7 +62,8 @@ namespace TestTwee
         }
 
         [Test]
-        public void Twine2Archive_SetStories() {
+        public void Twine2Archive_SetStories()
+        {
             // Arrange
             Twine2Archive archive = new();
             List<Story> stories = [new Story { Name = "Test Story", IFID = "12345678-1234-5678-1234-567812345678" }];
