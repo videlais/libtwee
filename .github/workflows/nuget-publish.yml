@@ -1,0 +1,102 @@
+name: NuGet Package Publishing
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  check-version:
+    runs-on: ubuntu-latest
+    outputs:
+      version-changed: ${{ steps.version-check.outputs.changed }}
+      current-version: ${{ steps.version-check.outputs.current-version }}
+      previous-version: ${{ steps.version-check.outputs.previous-version }}
+    
+    steps:
+    - uses: actions/checkout@v5
+      with:
+        fetch-depth: 2  # Need at least 2 commits to compare
+    
+    - name: Check Version Change
+      id: version-check
+      run: |
+        # Get current version from project file
+        CURRENT_VERSION=$(grep -oP '<Version>\K[^<]+' libtwee/libtwee.csproj)
+        echo "current-version=$CURRENT_VERSION" >> $GITHUB_OUTPUT
+        
+        # Get previous version from the previous commit
+        git checkout HEAD~1 -- libtwee/libtwee.csproj 2>/dev/null || echo "No previous version found"
+        if [ -f libtwee/libtwee.csproj ]; then
+          PREVIOUS_VERSION=$(grep -oP '<Version>\K[^<]+' libtwee/libtwee.csproj)
+        else
+          PREVIOUS_VERSION="0.0.0"
+        fi
+        echo "previous-version=$PREVIOUS_VERSION" >> $GITHUB_OUTPUT
+        
+        # Restore current version
+        git checkout HEAD -- libtwee/libtwee.csproj
+        
+        # Check if version changed
+        if [ "$CURRENT_VERSION" != "$PREVIOUS_VERSION" ]; then
+          echo "changed=true" >> $GITHUB_OUTPUT
+          echo "Version changed from $PREVIOUS_VERSION to $CURRENT_VERSION"
+        else
+          echo "changed=false" >> $GITHUB_OUTPUT
+          echo "No version change detected"
+        fi
+
+  publish:
+    needs: check-version
+    if: needs.check-version.outputs.version-changed == 'true'
+    runs-on: ubuntu-latest
+    
+    steps:
+    - uses: actions/checkout@v5
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v5
+      with:
+        dotnet-version: 9.0.x
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build
+      run: dotnet build --no-restore --configuration Release
+    
+    - name: Test
+      run: dotnet test --no-build --configuration Release --verbosity normal
+    
+    - name: Pack NuGet Package
+      run: dotnet pack libtwee/libtwee.csproj --no-build --configuration Release --output ./artifacts
+    
+    - name: Publish to NuGet
+      run: |
+        dotnet nuget push "./artifacts/*.nupkg" \
+          --api-key ${{ secrets.NUGETKEY }} \
+          --source https://api.nuget.org/v3/index.json \
+          --skip-duplicate
+    
+    - name: Create GitHub Release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: v${{ needs.check-version.outputs.current-version }}
+        release_name: Release v${{ needs.check-version.outputs.current-version }}
+        body: |
+          ## Changes in v${{ needs.check-version.outputs.current-version }}
+          
+          Version updated from ${{ needs.check-version.outputs.previous-version }} to ${{ needs.check-version.outputs.current-version }}
+          
+          ### NuGet Package
+          This release is available on NuGet: https://www.nuget.org/packages/Videlais.libtwee/${{ needs.check-version.outputs.current-version }}
+        draft: false
+        prerelease: false
+    
+    - name: Upload Package Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: nuget-package
+        path: ./artifacts/*.nupkg
