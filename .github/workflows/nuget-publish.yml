@@ -5,6 +5,10 @@ on:
     branches: [ "main" ]
   workflow_dispatch:
 
+permissions:
+  contents: write
+  packages: write
+
 jobs:
   check-version:
     runs-on: ubuntu-latest
@@ -79,21 +83,18 @@ jobs:
           --skip-duplicate
     
     - name: Create GitHub Release
-      uses: actions/create-release@v1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: v${{ needs.check-version.outputs.current-version }}
-        release_name: Release v${{ needs.check-version.outputs.current-version }}
-        body: |
-          ## Changes in v${{ needs.check-version.outputs.current-version }}
-          
-          Version updated from ${{ needs.check-version.outputs.previous-version }} to ${{ needs.check-version.outputs.current-version }}
-          
-          ### NuGet Package
-          This release is available on NuGet: https://www.nuget.org/packages/Videlais.libtwee/${{ needs.check-version.outputs.current-version }}
-        draft: false
-        prerelease: false
+      run: |
+        gh release create v${{ needs.check-version.outputs.current-version }} \
+          --title "Release v${{ needs.check-version.outputs.current-version }}" \
+          --notes "## Changes in v${{ needs.check-version.outputs.current-version }}
+        
+        Version updated from ${{ needs.check-version.outputs.previous-version }} to ${{ needs.check-version.outputs.current-version }}
+        
+        ### NuGet Package
+        This release is available on NuGet: https://www.nuget.org/packages/Videlais.libtwee/${{ needs.check-version.outputs.current-version }}" \
+          ./artifacts/*.nupkg
     
     - name: Upload Package Artifacts
       uses: actions/upload-artifact@v4
