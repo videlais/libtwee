@@ -52,5 +52,53 @@ namespace TestTwee
             string json = """window.storyFormat({"name":"Test Format","version":"1.0.0","author":"Test Author","description":"Test Description","image":"test.png","url":"http://example.com","license":"MIT","proofing":true,"source":"<html>{{STORY_DATA}}</html>"}""";
             Assert.Throws<Exception>(() => StoryFormat.Parse(json));
         }
+
+        [Test]
+        public void TestParseEmptyJson()
+        {
+            string json = """window.storyFormat();""";
+            var ex = Assert.Throws<Exception>(() => StoryFormat.Parse(json));
+            Assert.That(ex.Message, Does.Contain("ERROR: The story format data is not valid JSON"));
+        }
+
+        [Test]
+        public void TestParseNullJson()
+        {
+            string json = """window.storyFormat(null);""";
+            var ex = Assert.Throws<Exception>(() => StoryFormat.Parse(json));
+            Assert.That(ex.Message, Does.Contain("ERROR: The story format data is not valid JSON"));
+        }
+
+        [Test]
+        public void TestParseMalformedJson()
+        {
+            string json = """window.storyFormat({"name":"Test Format","version":});""";
+            var ex = Assert.Throws<Exception>(() => StoryFormat.Parse(json));
+            Assert.That(ex.Message, Does.Contain("ERROR: The story format data is not valid JSON"));
+        }
+
+        [Test]
+        public void TestParsePartialFunctionStart()
+        {
+            string json = """window.storyFo({"name":"Test Format"});""";
+            var ex = Assert.Throws<Exception>(() => StoryFormat.Parse(json));
+            Assert.That(ex.Message, Is.EqualTo("ERROR: The story format data does not start with 'window.storyFormat('."));
+        }
+
+        [Test]
+        public void TestParsePartialFunctionEnd()
+        {
+            string json = """window.storyFormat({"name":"Test Format"})""";
+            var ex = Assert.Throws<Exception>(() => StoryFormat.Parse(json));
+            Assert.That(ex.Message, Is.EqualTo("ERROR: The story format data does not end with ');'."));
+        }
+
+        [Test]
+        public void TestParseWithBrokenEnding()
+        {
+            string json = """window.storyFormat({"name":"Test Format"});extra""";
+            var ex = Assert.Throws<Exception>(() => StoryFormat.Parse(json));
+            Assert.That(ex.Message, Is.EqualTo("ERROR: The story format data does not end with ');'."));
+        }
     }
 }

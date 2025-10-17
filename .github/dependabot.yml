@@ -1,0 +1,58 @@
+# GitHub Dependabot configuration
+# See https://docs.github.com/en/code-security/dependabot/dependabot-version-updates/configuration-options-for-the-dependabot.yml-file
+
+version: 2
+updates:
+  # Enable version updates for NuGet packages
+  - package-ecosystem: "nuget"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+    # Limit the number of open pull requests for version updates
+    open-pull-requests-limit: 10
+    # Configure commit message format
+    commit-message:
+      prefix: "deps"
+      prefix-development: "deps-dev"
+      include: "scope"
+    # Group updates to reduce PR noise
+    groups:
+      test-dependencies:
+        patterns:
+          - "NUnit*"
+          - "Microsoft.NET.Test.Sdk"
+          - "coverlet.*"
+        update-types:
+          - "minor"
+          - "patch"
+      production-dependencies:
+        patterns:
+          - "HtmlAgilityPack"
+        update-types:
+          - "patch"
+    # Configure reviewers (optional - replace with your GitHub username)
+    reviewers:
+      - "videlais"
+    # Labels to add to PRs
+    labels:
+      - "dependencies"
+      - "dotnet"
+
+  # Enable version updates for GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "UTC"
+    open-pull-requests-limit: 5
+    commit-message:
+      prefix: "ci"
+      include: "scope"
+    labels:
+      - "github-actions"
+      - "ci"

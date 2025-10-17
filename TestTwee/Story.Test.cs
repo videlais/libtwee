@@ -905,5 +905,140 @@ namespace TestTwee
                 Assert.That(_story?.Zoom, Is.EqualTo(1.0));
             });
         }
+
+        [Test]
+        public void TestAddPassage_StoryData_NoIFID()
+        {
+            Passage storyDataPassage = new("StoryData", "{\"start\": \"Start\", \"format\": \"Harlowe\"}");
+            _story?.AddPassage(storyDataPassage);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(_story?.IFID, Is.EqualTo(""));
+                Assert.That(_story?.Start, Is.EqualTo("Start"));
+                Assert.That(_story?.Format, Is.EqualTo("Harlowe"));
+            });
+        }
+
+        [Test]
+        public void TestAddPassage_StoryData_NoStart()
+        {
+            Passage storyDataPassage = new("StoryData", "{\"ifid\": \"12345\", \"format\": \"Harlowe\"}");
+            _story?.AddPassage(storyDataPassage);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(_story?.IFID, Is.EqualTo("12345"));
+                Assert.That(_story?.Start, Is.EqualTo(""));
+                Assert.That(_story?.Format, Is.EqualTo("Harlowe"));
+            });
+        }
+
+        [Test]
+        public void TestAddPassage_StoryData_NoFormat()
+        {
+            Passage storyDataPassage = new("StoryData", "{\"ifid\": \"12345\", \"start\": \"Start\"}");
+            _story?.AddPassage(storyDataPassage);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(_story?.IFID, Is.EqualTo("12345"));
+                Assert.That(_story?.Start, Is.EqualTo("Start"));
+                Assert.That(_story?.Format, Is.EqualTo(""));
+            });
+        }
+
+        [Test]
+        public void TestAddPassage_StoryData_NoFormatVersion()
+        {
+            Passage storyDataPassage = new("StoryData", "{\"ifid\": \"12345\", \"format\": \"Harlowe\"}");
+            _story?.AddPassage(storyDataPassage);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(_story?.IFID, Is.EqualTo("12345"));
+                Assert.That(_story?.Format, Is.EqualTo("Harlowe"));
+                Assert.That(_story?.FormatVersion, Is.EqualTo(""));
+            });
+        }
+
+        [Test]
+        public void TestAddPassage_StoryData_InvalidZoom()
+        {
+            // This test is expected to throw an exception due to invalid zoom type
+            Passage storyDataPassage = new("StoryData", "{\"ifid\": \"12345\", \"zoom\": \"invalid\"}");
+            Assert.Throws<InvalidOperationException>(() => _story?.AddPassage(storyDataPassage));
+        }
+
+        [Test]
+        public void TestAddPassage_StoryData_InvalidTagColors()
+        {
+            // This test is expected to throw a JsonException due to invalid JSON
+            Passage storyDataPassage = new("StoryData", "{\"ifid\": \"12345\", \"tag-colors\": \"not a dict\"}");
+            Assert.Throws<JsonException>(() => _story?.AddPassage(storyDataPassage));
+        }
+
+        [Test]
+        public void TestAddPassage_StoryData_NullValues()
+        {
+            Passage storyDataPassage = new("StoryData", "{\"ifid\": null, \"start\": null, \"format\": null}");
+            _story?.AddPassage(storyDataPassage);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(_story?.IFID, Is.EqualTo(""));
+                Assert.That(_story?.Start, Is.EqualTo(""));
+                Assert.That(_story?.Format, Is.EqualTo(""));
+            });
+        }
+
+        [Test]
+        public void TestAddPassage_StoryTitle_UpdatesName()
+        {
+            Passage storyTitlePassage = new("StoryTitle", "My Amazing Story");
+            _story?.AddPassage(storyTitlePassage);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(_story?.Name, Is.EqualTo("My Amazing Story"));
+                Assert.That(_story?.Passages, Has.Count.EqualTo(1));
+            });
+        }
+
+        [Test]
+        public void TestAddPassage_StartPassage_WhenStartEmpty()
+        {
+            if (_story != null)
+            {
+                _story.Start = "";
+            }
+
+            Passage startPassage = new("Start", "This is the start.");
+            _story?.AddPassage(startPassage);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(_story?.Start, Is.EqualTo("Start"));
+                Assert.That(_story?.Passages, Has.Count.EqualTo(1));
+            });
+        }
+
+        [Test]
+        public void TestAddPassage_StartPassage_WhenStartAlreadySet()
+        {
+            if (_story != null)
+            {
+                _story.Start = "AlreadySet";
+            }
+
+            Passage startPassage = new("Start", "This is the start.");
+            _story?.AddPassage(startPassage);
+
+            Assert.Multiple(() =>
+            {
+                Assert.That(_story?.Start, Is.EqualTo("AlreadySet")); // Should not change
+                Assert.That(_story?.Passages, Has.Count.EqualTo(1));
+            });
+        }
     }
 }

@@ -1,0 +1,33 @@
+Summary
+  Generated on: 10/17/2025 - 11:15:57 AM
+  Coverage date: 10/17/2025 - 11:15:56 AM
+  Parser: Cobertura
+  Assemblies: 1
+  Classes: 13
+  Files: 16
+  Line coverage: 98.2%
+  Covered lines: 993
+  Uncovered lines: 18
+  Coverable lines: 1011
+  Total lines: 2105
+  Branch coverage: 90.5% (500 of 552)
+  Covered branches: 500
+  Total branches: 552
+  Method coverage: 100% (86 of 86)
+  Covered methods: 86
+  Total methods: 86
+
+libtwee                                                                                                                                             98.2%
+  libtwee.Babel                                                                                                                                      100%
+  libtwee.EmptyPassageNameException                                                                                                                  100%
+  libtwee.MissingHTMLElementException                                                                                                                100%
+  libtwee.Passage                                                                                                                                    100%
+  libtwee.Story                                                                                                                                      100%
+  libtwee.StoryFormat                                                                                                                                 95%
+  libtwee.Twee                                                                                                                                      95.7%
+  libtwee.Twine1HTML                                                                                                                                 100%
+  libtwee.Twine2Archive                                                                                                                              100%
+  libtwee.Twine2HTML                                                                                                                                 100%
+  libtwee.Twine2JSON                                                                                                                                97.5%
+  System.Text.RegularExpressions.Generated                                                                                                          96.4%
+  System.Text.RegularExpressions.Generated.<RegexGenerator_g>F02AAFEA4CAE1520CE2F8E142F12E73E1C2FE7116DB588DDED7FA2E73E48A2AE1__TwineBabelRegex_0   96.3%

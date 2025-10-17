@@ -314,5 +314,163 @@ namespace TestTwee
 
             Assert.Throws<EmptyPassageNameException>(() => passage.ToTwine1HTML());
         }
+
+        [Test]
+        public void TestToTwine1HTML_ExceptionWithNullName()
+        {
+            Passage passage = new()
+            {
+                Name = null!,
+                Text = "This is a test passage."
+            };
+
+            Assert.Throws<EmptyPassageNameException>(() => passage.ToTwine1HTML());
+        }
+
+        [Test]
+        public void TestToTwine1HTML_ExceptionWithWhitespaceName()
+        {
+            Passage passage = new()
+            {
+                Name = "   ",
+                Text = "This is a test passage."
+            };
+
+            // Whitespace-only name should not throw exception, it's a valid name
+            string html = passage.ToTwine1HTML();
+            Assert.That(html, Does.Contain("tiddler=\"   \""));
+        }
+
+        [Test]
+        public void TestAddTag_DuplicateTag()
+        {
+            Passage passage = new();
+            passage.AddTag("test");
+            passage.AddTag("test"); // Add same tag again
+            
+            // Should only contain one instance
+            Assert.Multiple(() =>
+            {
+                Assert.That(passage.Tags, Has.Count.EqualTo(1));
+                Assert.That(passage.Tags, Does.Contain("test"));
+            });
+        }
+
+        [Test]
+        public void TestRemoveTag_NonExistentTag()
+        {
+            Passage passage = new();
+            passage.AddTag("existing");
+            
+            bool result = passage.RemoveTag("nonexistent");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.False);
+                Assert.That(passage.Tags, Has.Count.EqualTo(1));
+                Assert.That(passage.Tags, Does.Contain("existing"));
+            });
+        }
+
+        [Test]
+        public void TestRemoveMetadata_NonExistentKey()
+        {
+            Passage passage = new();
+            passage.SetMetadata("existing", "value");
+            
+            bool result = passage.RemoveMetadata("nonexistent");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.False);
+                Assert.That(passage.Metadata, Has.Count.EqualTo(1));
+                Assert.That(passage.Metadata, Does.ContainKey("existing"));
+            });
+        }
+
+        [Test]
+        public void TestAddMetadata_DuplicateKey()
+        {
+            Passage passage = new();
+            passage.SetMetadata("key", "original");
+            
+            bool result = passage.AddMetadata("key", "duplicate");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.False); // Should return false for duplicate key
+                Assert.That(passage.Metadata["key"], Is.EqualTo("original")); // Should keep original
+            });
+        }
+
+        [Test]
+        public void TestAddMetadata_NewKey()
+        {
+            Passage passage = new();
+            
+            bool result = passage.AddMetadata("newkey", "newvalue");
+            
+            Assert.Multiple(() =>
+            {
+                Assert.That(result, Is.True);
+                Assert.That(passage.Metadata, Does.ContainKey("newkey"));
+                Assert.That(passage.Metadata["newkey"], Is.EqualTo("newvalue"));
+            });
+        }
+
+        [Test]
+        public void TestGetMetadata_NonExistentKey()
+        {
+            Passage passage = new();
+            passage.SetMetadata("existing", "value");
+            
+            Assert.Throws<KeyNotFoundException>(() => passage.GetMetadata("nonexistent"));
+        }
+
+        [Test]
+        public void TestToTwine1HTML_WithSpecialCharactersInName()
+        {
+            Passage passage = new()
+            {
+                Name = "Test<>&\"'Passage",
+                Text = "Test content"
+            };
+
+            string html = passage.ToTwine1HTML();
+            
+            // Should contain the name exactly (HTML escaping is not done in ToTwine1HTML)
+            Assert.That(html, Does.Contain("Test<>&\"'Passage"));
+        }
+
+        [Test]
+        public void TestToTwine1HTML_WithEmptyTags()
+        {
+            Passage passage = new()
+            {
+                Name = "TestPassage",
+                Text = "Test content"
+            };
+
+            string html = passage.ToTwine1HTML();
+            
+            Assert.That(html, Does.Contain("tags=\"\""));
+        }
+
+        [Test]
+        public void TestToTwine1HTML_WithMultipleTags()
+        {
+            Passage passage = new()
+            {
+                Name = "TestPassage",
+                Text = "Test content"
+            };
+            passage.AddTag("tag1");
+            passage.AddTag("tag2");
+            passage.AddTag("tag3");
+
+            string html = passage.ToTwine1HTML();
+            
+            Assert.That(html, Does.Contain("tags=\"tag1 tag2 tag3\""));
+        }
     }
 }

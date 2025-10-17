@@ -262,5 +262,77 @@ namespace TestTwee
             Story story = Twine2JSON.Parse(json);
             Assert.That(story.TagColors, Has.Count.EqualTo(0));
         }
+
+        [Test]
+        public void TestParseTwine2JSON_MissingName()
+        {
+            string json = @"
+            {
+                ""ifid"": ""D674C58C-DEFA-4F70-B7A2-27742230C0FC""
+            }
+            ";
+            Story story = Twine2JSON.Parse(json);
+            Assert.That(story.Name, Is.EqualTo("Untitled"));
+        }
+
+        [Test]
+        public void TestParseTwine2JSON_NullName()
+        {
+            string json = @"
+            {
+                ""name"": null,
+                ""ifid"": ""D674C58C-DEFA-4F70-B7A2-27742230C0FC""
+            }
+            ";
+            Story story = Twine2JSON.Parse(json);
+            Assert.That(story.Name, Is.EqualTo("Untitled"));
+        }
+
+        [Test]
+        public void TestParseTwine2JSON_InvalidPassagesData()
+        {
+            string json = @"
+            {
+                ""name"": ""Test Story"",
+                ""passages"": ""invalid data""
+            }
+            ";
+            Story story = Twine2JSON.Parse(json);
+            Assert.Multiple(() =>
+            {
+                Assert.That(story.Name, Is.EqualTo("Test Story"));
+                Assert.That(story.Passages, Has.Count.EqualTo(0));
+            });
+        }
+
+        [Test]
+        public void TestParseTwine2JSON_NullPassages()
+        {
+            string json = @"
+            {
+                ""name"": ""Test Story"",
+                ""passages"": null
+            }
+            ";
+            Story story = Twine2JSON.Parse(json);
+            Assert.Multiple(() =>
+            {
+                Assert.That(story.Name, Is.EqualTo("Test Story"));
+                Assert.That(story.Passages, Has.Count.EqualTo(0));
+            });
+        }
+
+        [Test]
+        public void TestParseTwine2JSON_InvalidZoomValue()
+        {
+            string json = @"
+            {
+                ""name"": ""Test Story"",
+                ""zoom"": ""invalid""
+            }
+            ";
+            // This should throw an exception due to invalid zoom type
+            Assert.Throws<InvalidOperationException>(() => Twine2JSON.Parse(json));
+        }
     }
 }
