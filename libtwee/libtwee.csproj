@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <PackageId>Videlais.libtwee</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Authors>Dan Cox</Authors>
     <Company>Videlais</Company>
     <PackageTags>Twine;Twee;Twee compiler</PackageTags>
