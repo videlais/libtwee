@@ -104,23 +104,21 @@ namespace libtwee
                     // Prepare the metadata dictionary.
                     Dictionary<string, object> metadata = [];
 
-                    // Get the value or empty string if it doesn't exist.
-                    string size = node.GetAttributeValue("size", string.Empty);
-
-                    // If the size exists, add it to the metadata dictionary.
-                    if (!string.IsNullOrEmpty(size))
+                    // If the 'size' attribute is present on the element we add it to metadata.
+                    // We intentionally add the key even when the attribute value is an empty string
+                    // because tests expect an empty-string value when the attribute exists but is empty.
+                    var sizeAttr = node.Attributes["size"];
+                    if (sizeAttr != null)
                     {
-                        // Add the size metadata.
+                        string size = node.GetAttributeValue("size", string.Empty);
                         metadata.Add("size", size);
                     }
 
-                    // Get the value or empty string if it doesn't exist.
-                    string position = node.GetAttributeValue("position", string.Empty);
-
-                    // If the position exists, add it to the metadata dictionary.
-                    if (!string.IsNullOrEmpty(position))
+                    // Similarly, add the 'position' metadata key if the attribute exists (even if empty).
+                    var positionAttr = node.Attributes["position"];
+                    if (positionAttr != null)
                     {
-                        // Add the position metadata.
+                        string position = node.GetAttributeValue("position", string.Empty);
                         metadata.Add("position", position);
                     }
 
