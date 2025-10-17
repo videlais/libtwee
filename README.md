@@ -52,7 +52,29 @@ var story = Twee.Parse(tweeContent);
 var html = story.ToTwine2HTML();
 
 // Generate a new IFID
-var ifid = Babel.GenerateIFID();
+var ifid = Babel.GenerateTwineIFID();
+```
+
+## Documentation
+
+📚 **[Complete Documentation](docs/index.md)** - Comprehensive guides and API reference
+
+- **[Getting Started Guide](docs/articles/getting-started.md)** - Installation and basic usage
+- **[Examples](docs/articles/examples.md)** - Practical code examples  
+- **[API Reference](docs/articles/api-reference.md)** - Complete API documentation
+- **[File Formats Guide](docs/articles/file-formats.md)** - Understanding Twine formats
+
+### Building Documentation Locally
+
+```bash
+# Install DocFX (if not already installed)
+dotnet tool install -g docfx
+
+# Build documentation
+./build-docs.sh
+
+# Or manually:
+cd docs && docfx docfx.json
 ```
 
 ## Requirements
