@@ -97,7 +97,7 @@ jobs:
           ./artifacts/*.nupkg
     
     - name: Upload Package Artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: nuget-package
         path: ./artifacts/*.nupkg
