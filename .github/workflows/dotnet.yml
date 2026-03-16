@@ -41,7 +41,7 @@ jobs:
         reportgenerator -reports:"TestResults/*/coverage.cobertura.xml" -targetdir:"CoverageReport" -reporttypes:"Html;Cobertura"
     
     - name: Upload Coverage Reports
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: coverage-report
         path: CoverageReport/
@@ -55,7 +55,7 @@ jobs:
         docfx docfx.json
 
     - name: Upload Documentation
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: documentation
         path: docs/_site/
