@@ -6,7 +6,7 @@
     <Authors>Dan Cox</Authors>
     <Company>Videlais</Company>
     <PackageTags>Twine;Twee;Twee compiler</PackageTags>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <EnableNETAnalyzers>true</EnableNETAnalyzers>
