@@ -55,7 +55,7 @@ namespace libtwee
             story.CreatorVersion = storyDataNode.GetAttributeValue("creator-version", string.Empty);
 
             // zoom: (string) Optional. The decimal level of zoom (i.e. 1.0 is 100% and 1.2 would be 120% zoom level).
-            story.Zoom = int.Parse(storyDataNode.GetAttributeValue("zoom", "1"));
+            story.Zoom = float.Parse(storyDataNode.GetAttributeValue("zoom", "1"));
 
             // format: (string) Optional. The story format used to create the story.
             story.Format = storyDataNode.GetAttributeValue("format", string.Empty);

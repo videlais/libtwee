@@ -3,6 +3,9 @@ using System.Text.Json;
 
 namespace libtwee
 {
+    /// <summary>
+    /// Provides methods for parsing and creating Twee-formatted stories following the <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twee-3-specification.md">Twee 3 Specification</see>.
+    /// </summary>
     public partial class Twee
     {
         /// <summary>

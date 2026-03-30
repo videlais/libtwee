@@ -237,7 +237,7 @@ namespace TestTwee
                 Text = "This is a test passage."
             };
 
-            Assert.Throws<Exception>(() => passage.ToTwine2HTML());
+            Assert.Throws<EmptyPassageNameException>(() => passage.ToTwine2HTML());
         }
 
         [Test]
