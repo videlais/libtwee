@@ -8,38 +8,57 @@ namespace libtwee
     /// </summary>
     public partial class StoryFormat
     {
-        // name: (string) Optional. The name of the story format. (Omitting the name will lead to an Untitled Story Format.)
+        /// <summary>
+        /// The name of the story format. Omitting the name results in an "Untitled Story Format".
+        /// </summary>
         [JsonPropertyName("name")]
         public string Name { get; set; }
 
-        // version: (string) Required, and semantic version-style formatting (x.y.z, e.g., 1.2.1) of the version is also required.
+        /// <summary>
+        /// The version of the story format in semantic version format (x.y.z).
+        /// </summary>
         [JsonPropertyName("version")]
         public string Version { get; set; }
 
-        // author: (string) Optional.
+        /// <summary>
+        /// The author of the story format.
+        /// </summary>
         [JsonPropertyName("author")]
         public string Author { get; set; }
 
-        // description: (string) Optional.
+        /// <summary>
+        /// A description of the story format.
+        /// </summary>
         [JsonPropertyName("description")]
         public string Description { get; set; }
-        // image: (string) Optional. The filename of an image (ideally SVG) served from the same directory as the format.js file.
+
+        /// <summary>
+        /// The filename of an image (ideally SVG) served from the same directory as the format.js file.
+        /// </summary>
         [JsonPropertyName("image")]
         public string Image { get; set; }
 
-        // url: (string) Optional. The URL of the directory containing the format.js file.
+        /// <summary>
+        /// The URL of the directory containing the format.js file.
+        /// </summary>
         [JsonPropertyName("url")]
         public string Url { get; set; }
 
-        // license: (string) Optional. The name of the license under which the story format is released.
+        /// <summary>
+        /// The name of the license under which the story format is released.
+        /// </summary>
         [JsonPropertyName("license")]
         public string License { get; set; }
 
-        // proofing: (boolean) Optional (defaults to false). True if the story format is a "proofing" format. The distinction is relevant only in the Twine 2 UI.
+        /// <summary>
+        /// Whether the story format is a "proofing" format. Defaults to <c>false</c>.
+        /// </summary>
         [JsonPropertyName("proofing")]
         public bool Proofing { get; set; }
 
-        // source: (string) Required. An adequately escaped string containing the full HTML output of the story format, including the two placeholders {{STORY_NAME}} and {{STORY_DATA}}. (The placeholders are not themselves required.)
+        /// <summary>
+        /// The full HTML source of the story format, including the placeholders {{STORY_NAME}} and {{STORY_DATA}}.
+        /// </summary>
         [JsonPropertyName("source")]
         public string Source { get; set; }
 

@@ -2,21 +2,77 @@ using System.Text.Json;
 
 namespace libtwee
 {
+    /// <summary>
+    /// Represents a Twine story containing passages, metadata, and format information.
+    /// A story can be serialized to and from Twee, Twine 1 HTML, Twine 2 HTML, and JSON formats.
+    /// </summary>
     public class Story
     {
+        /// <summary>
+        /// The name of the story.
+        /// </summary>
         public string Name { get; set; }
+
+        /// <summary>
+        /// The Interactive Fiction Identifier (IFID) for the story in uppercase UUID format.
+        /// </summary>
         public string IFID { get; set; }
+
+        /// <summary>
+        /// The name of the starting passage.
+        /// </summary>
         public string Start { get; set; }
+
+        /// <summary>
+        /// The story format (e.g., "Harlowe", "SugarCube", "Snowman").
+        /// </summary>
         public string Format { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The version of the story format.
+        /// </summary>
         public string FormatVersion { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The zoom level of the story (1.0 is 100%).
+        /// </summary>
         public float Zoom { get; set; }
+
+        /// <summary>
+        /// The list of passages in the story.
+        /// </summary>
         public List<Passage> Passages { get; }
+
+        /// <summary>
+        /// The name of the program that created the story.
+        /// </summary>
         public string Creator { get; set; } = string.Empty;
+
+        /// <summary>
+        /// The version of the program that created the story.
+        /// </summary>
         public string CreatorVersion { get; set; } = string.Empty;
+
+        /// <summary>
+        /// A dictionary mapping tag names to color values.
+        /// </summary>
         public Dictionary<string, string> TagColors { get; set; }
+
+        /// <summary>
+        /// The number of passages in the story.
+        /// </summary>
         public int Count => Passages.Count;
+
         private readonly JsonSerializerOptions JSONSerializePrettyPrint = new() { WriteIndented = true };
+
+        /// <summary>
+        /// A list of story-level CSS stylesheets.
+        /// </summary>
         public List<string> StoryStylesheets { get; set; }
+
+        /// <summary>
+        /// A list of story-level JavaScript scripts.
+        /// </summary>
         public List<string> StoryScripts { get; set; }
 
         /// <summary>
@@ -163,6 +219,11 @@ namespace libtwee
             Passages.RemoveAll(p => p.Name == name);
         }
 
+        /// <summary>
+        /// Returns all passages that contain the specified tag.
+        /// </summary>
+        /// <param name="tag">The tag to search for.</param>
+        /// <returns>A list of passages containing the specified tag.</returns>
         public List<Passage> GetPassagesByTag(string tag)
         {
             List<Passage> results = Passages.FindAll(
@@ -175,6 +236,11 @@ namespace libtwee
             return results;
         }
 
+        /// <summary>
+        /// Returns the first passage with the specified name.
+        /// </summary>
+        /// <param name="name">The name of the passage to find.</param>
+        /// <returns>The passage with the specified name, or <c>null</c> if not found.</returns>
         public Passage GetPassageByName(string name)
         {
             return Passages.Find(
@@ -185,36 +251,10 @@ namespace libtwee
             )!;
         }
 
-        /**
-            {
-            "name": "Example",
-            "ifid": "D674C58C-DEFA-4F70-B7A2-27742230C0FC",
-            "format": "Snowman",
-            "format-version": "3.0.2",
-            "start": "My Starting Passage",
-            "tag-colors": {
-                "bar": "Green",
-                "foo": "red",
-                "qaz": "blue"
-            },
-            "zoom": 0.25,
-            "creator": "Twine",
-            "creator-version": "2.8",
-            "style": "",
-            "script": "",
-            "passages": [
-                {
-                    "name": "My Starting Passage",
-                    "tags": ["tag1", "tag2"],
-                    "metadata": {
-                        "position":"600,400",
-                        "size":"100,200"
-                    },
-                    "text": "Double-click this passage to edit it."
-                }
-            ]
-            }
-        */
+        /// <summary>
+        /// Returns a JSON representation of the story following the <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-jsonoutput-doc.md">Twine 2 JSON Output Specification</see>.
+        /// </summary>
+        /// <returns>String containing JSON representation of story.</returns>
         // https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-jsonoutput-doc.md
         public string ToJson()
         {
@@ -255,15 +295,10 @@ namespace libtwee
             return JsonSerializer.Serialize(data, JSONSerializePrettyPrint);
         }
 
-        /**
-         * Return Twine 1 HTML.
-         *
-         * See: Twine 1 HTML Output
-         * (https://github.com/iftechfoundation/twine-specs/blob/master/twine-1-htmloutput-doc.md)
-         * 
-         * @method toTwine1HTML
-         * @returns {string} Twine 1 HTML string.
-         */
+        /// <summary>
+        /// Returns a Twine 1 HTML representation of the story following the <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twine-1-htmloutput-doc.md">Twine 1 HTML Output Specification</see>.
+        /// </summary>
+        /// <returns>String containing Twine 1 HTML representation of story.</returns>
         public string ToTwine1HTML()
         {
             // For each passage, generate a Twine 1 HTML string.
@@ -283,15 +318,10 @@ namespace libtwee
             return html;
         }
 
-        /**
-        * Return Twee representation.
-        *
-        * See: Twee 3 Specification
-        * (https://github.com/iftechfoundation/twine-specs/blob/master/twee-3-specification.md)
-        * 
-        * @method toTwee
-        * @returns {string} Twee String
-        */
+        /// <summary>
+        /// Returns a Twee representation of the story following the <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twee-3-specification.md">Twee 3 Specification</see>.
+        /// </summary>
+        /// <returns>String containing Twee representation of story.</returns>
         public string ToTwee()
         {
             // For human readability, start with StoryData passage.
@@ -383,25 +413,10 @@ namespace libtwee
             return twee;
         }
 
-        /**
-         * Return Twine 2 HTML.
-         *
-         * See: Twine 2 HTML Output
-         * (https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-htmloutput-spec.md)
-         * 
-         *  The only required attributes are `name` and `ifid` of the `<tw-storydata>` element. All others are optional.
-         * 
-         * The `<tw-storydata>` element may have any number of optional attributes, which are:
-         * - `startnode`: (integer) Optional. The PID of the starting passage.
-         * - `creator`: (string) Optional. The name of the program that created the story.
-         * - `creator-version`: (string) Optional. The version of the program that created the story.
-         * - `zoom`: (decimal) Optional. The zoom level of the story.
-         * - `format`: (string) Optional. The format of the story.
-         * - `format-version`: (string) Optional. The version of the format of the story.
-         * 
-         * @method toTwine2HTML
-         * @returns {string} Twine 2 HTML string
-         */
+        /// <summary>
+        /// Returns a Twine 2 HTML representation of the story following the <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-htmloutput-spec.md">Twine 2 HTML Output Specification</see>.
+        /// </summary>
+        /// <returns>String containing Twine 2 HTML representation of story.</returns>
         public string ToTwine2HTML()
         {
             // Twine 2 HTML starts with a <tw-storydata> element.

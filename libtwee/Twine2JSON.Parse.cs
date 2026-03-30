@@ -2,6 +2,9 @@ using System.Text.Json;
 
 namespace libtwee
 {
+    /// <summary>
+    /// Provides methods for parsing Twine 2 JSON data following the <see href="https://github.com/iftechfoundation/twine-specs/blob/master/twine-2-jsonoutput-doc.md">Twine 2 JSON Output Specification</see>.
+    /// </summary>
     public partial class Twine2JSON
     {
         /// <summary>

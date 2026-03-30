@@ -27,12 +27,27 @@ namespace libtwee
     /// </summary>
     public class Passage
     {
+        /// <summary>
+        /// The name of the passage. Every passage name in a story should be unique.
+        /// </summary>
         [JsonPropertyName("name")]
         public string Name { get; set; }
+
+        /// <summary>
+        /// The set of tags associated with the passage. Tags should be unique per passage.
+        /// </summary>
         [JsonPropertyName("tags")]
         public HashSet<string> Tags { get; set; }
+
+        /// <summary>
+        /// Extra metadata associated with the passage. Currently, only the Twee format expresses metadata.
+        /// </summary>
         [JsonPropertyName("metadata")]
         public Dictionary<string, object> Metadata { get; set; }
+
+        /// <summary>
+        /// The text content of the passage.
+        /// </summary>
         [JsonPropertyName("text")]
         public string Text { get; set; }
 
@@ -212,12 +227,13 @@ namespace libtwee
         /// </summary>
         /// <param name="pid">Passage ID</param>
         /// <returns>String containing HTML representation of passage</returns>
+        /// <exception cref="EmptyPassageNameException">Throws exception if passage name is empty</exception>
         public string ToTwine2HTML(int pid = 1)
         {
             // If Name is empty, throw an exception.
             if (string.IsNullOrEmpty(Name))
             {
-                throw new Exception("Passage name cannot be empty.");
+                throw new EmptyPassageNameException();
             }
 
             // Add the passage name and PID.
