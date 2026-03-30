@@ -18,9 +18,6 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
 
     steps:
     - uses: actions/checkout@v6
@@ -60,17 +57,34 @@ jobs:
         name: documentation
         path: docs/_site/
 
+  deploy:
+    needs: build
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+    - uses: actions/checkout@v6
+
+    - name: Install DocFX
+      run: |
+        dotnet tool install -g docfx
+
+    - name: Build Documentation
+      run: |
+        cd docs
+        docfx docfx.json
+
     - name: Setup Pages
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       uses: actions/configure-pages@v5
 
     - name: Upload to GitHub Pages
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       uses: actions/upload-pages-artifact@v4
       with:
         path: docs/_site
 
     - name: Deploy to GitHub Pages
-      if: github.ref == 'refs/heads/main' && github.event_name == 'push'
       id: deployment
       uses: actions/deploy-pages@v4
