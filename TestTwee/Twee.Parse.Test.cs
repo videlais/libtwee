@@ -276,5 +276,52 @@ Content 4";
                 Assert.That(story.Passages[3].Name, Does.Contain("Passage4"));
             });
         }
+
+        [Test]
+        public void TestParse_StoryTitleSetsStoryName()
+        {
+            string tweeContent = ":: StoryTitle\nThe Lost Temple\n\n:: Entrance\nYou stand before an ancient temple.";
+            Story story = Twee.Parse(tweeContent);
+            Assert.That(story.Name, Is.EqualTo("The Lost Temple"));
+        }
+
+        [Test]
+        public void TestParse_StoryDataSetsMetadata()
+        {
+            string tweeContent = ":: StoryData\n{\"ifid\": \"12345678-1234-5678-9ABC-123456789ABC\", \"format\": \"Harlowe\", \"format-version\": \"3.3.5\", \"start\": \"Entrance\"}\n\n:: Entrance\nYou stand before an ancient temple.";
+            Story story = Twee.Parse(tweeContent);
+            Assert.Multiple(() =>
+            {
+                Assert.That(story.IFID, Is.EqualTo("12345678-1234-5678-9ABC-123456789ABC"));
+                Assert.That(story.Format, Is.EqualTo("Harlowe"));
+                Assert.That(story.FormatVersion, Is.EqualTo("3.3.5"));
+                Assert.That(story.Start, Is.EqualTo("Entrance"));
+            });
+        }
+
+        [Test]
+        public void TestParse_StoryDataMultilineJSON()
+        {
+            string tweeContent = ":: StoryData\n{\n  \"ifid\": \"12345678-1234-5678-9ABC-123456789ABC\",\n  \"format\": \"Harlowe\",\n  \"format-version\": \"3.3.5\",\n  \"start\": \"Entrance\"\n}\n\n:: Entrance\nYou stand before an ancient temple.";
+            Story story = Twee.Parse(tweeContent);
+            Assert.Multiple(() =>
+            {
+                Assert.That(story.IFID, Is.EqualTo("12345678-1234-5678-9ABC-123456789ABC"));
+                Assert.That(story.Format, Is.EqualTo("Harlowe"));
+                Assert.That(story.FormatVersion, Is.EqualTo("3.3.5"));
+                Assert.That(story.Start, Is.EqualTo("Entrance"));
+            });
+        }
+
+        [Test]
+        public void TestParse_NoWarnForPassagesWithoutHeaderMetadata()
+        {
+            // Passages without inline header metadata ({...}) should not produce warnings.
+            // This test verifies that the parser does not attempt to parse an incomplete
+            // JSON fragment when no header metadata is present.
+            string tweeContent = ":: PassageName\nContent";
+            Story story = Twee.Parse(tweeContent);
+            Assert.That(story.Passages[0].Metadata, Is.Empty);
+        }
     }
 }

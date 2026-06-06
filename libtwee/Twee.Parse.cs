@@ -61,7 +61,7 @@ namespace libtwee
                     string tempTags = "";
 
                     // Create a tempContent variable to store the passage JSON metadata.
-                    string tempMetadata = "{";
+                    string tempMetadata = "";
 
                     // Continue to append characters to the tempName 
                     //  variable until a '[', '{', or newline is found.
@@ -122,6 +122,9 @@ namespace libtwee
                     if (position < bytes.Length &&
                         bytes[position] == (byte)'{' && bytes[position] - 1 != (byte)'\\')
                     {
+                        // Start the metadata with the opening brace.
+                        tempMetadata = "{";
+
                         // Move the position to the character after the '{'.
                         position++;
 
@@ -166,9 +169,12 @@ namespace libtwee
                         if (bytes[position] == (byte)':')
                         {
                             // Check if the next character is also a colon.
-                            if (bytes[position + 1] == (byte)':')
+                            if (position + 1 < bytes.Length && bytes[position + 1] == (byte)':')
                             {
-                                // This might be a new passage header.
+                                // This is a new passage header.
+                                // Advance past '::' so the next outer loop iteration
+                                // starts reading the passage name directly.
+                                position += 2;
                                 // Break out of the internal loop.
                                 break;
                             }
@@ -220,7 +226,7 @@ namespace libtwee
                     passage.Text = tempContent;
 
                     // Add the passage to the story.
-                    story.Passages.Add(passage);
+                    story.AddPassage(passage);
                 }
             }
 
