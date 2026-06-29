@@ -21,7 +21,7 @@ dotnet add package Videlais.libtwee
 
 ## Requirements
 
-- .NET 9.0 or higher
+- .NET 10.0 or higher
 - For HTML parsing: HtmlAgilityPack (included automatically)
 
 ## Basic Usage
@@ -84,7 +84,7 @@ var newPassage = new Passage("End", "Thanks for playing!");
 story.AddPassage(newPassage);
 
 // Find a passage
-var startPassage = story.GetPassage("Start");
+var startPassage = story.GetPassageByName("Start");
 if (startPassage != null)
 {
     Console.WriteLine($"Start passage content: {startPassage.Text}");
@@ -156,11 +156,6 @@ You enter a dark cave. You can hear water dripping.
             // Save to file
             File.WriteAllText("my-adventure.html", html);
             Console.WriteLine("Story saved to my-adventure.html");
-            
-            // Convert to JSON
-            string json = story.ToTwine2JSON();
-            File.WriteAllText("my-adventure.json", json);
-            Console.WriteLine("Story saved to my-adventure.json");
         }
         catch (Exception ex)
         {

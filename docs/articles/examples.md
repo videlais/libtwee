@@ -47,27 +47,16 @@ string html = story.ToTwine2HTML();
 File.WriteAllText("story.html", html);
 ```
 
-### Twee to JSON
+### JSON to Story
 
 ```csharp
-// Convert Twee to Twine 2 JSON format
-string tweeContent = File.ReadAllText("story.twee");
-Story story = Twee.Parse(tweeContent);
-string json = story.ToTwine2JSON();
+// Parse Twine 2 JSON format into a Story
+string jsonContent = File.ReadAllText("story.json");
+Story story = Twine2JSON.Parse(jsonContent);
 
-File.WriteAllText("story.json", json);
-```
-
-### HTML to JSON
-
-```csharp
-// Parse existing Twine 2 HTML
-string htmlContent = File.ReadAllText("story.html");
-Story story = Twine2HTML.Parse(htmlContent);
-
-// Convert to JSON
-string json = story.ToTwine2JSON();
-File.WriteAllText("converted-story.json", json);
+// Convert to HTML
+string html = story.ToTwine2HTML();
+File.WriteAllText("story.html", html);
 ```
 
 ## Working with Story Data
@@ -145,7 +134,7 @@ story.StoryScripts.Add("console.log('Story loaded');");
 Story story = Twee.Parse(File.ReadAllText("story.twee"));
 
 // Find a specific passage
-var startPassage = story.GetPassage("Start");
+var startPassage = story.GetPassageByName("Start");
 if (startPassage != null)
 {
     // Modify passage content
